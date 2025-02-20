@@ -1,9 +1,11 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server';
-import User from '@/data/models/User';
-import { userCreated } from '@/action/user.action';
+// import User from '@/data/models/User';
+// import { userCreated } from '@/action/user.action';
 import { NextResponse } from 'next/server';
+import { userCreated } from '@/action/user.action';
+import User from '@/data/models/User';
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -61,20 +63,21 @@ export async function POST(req: Request) {
       evt.data;
     const user = await User.create({
       clerkId: id,
-      firstName: first_name,
-      lastName: last_name,
+      firstName: first_name!,
+      lastName: last_name!,
       email: email_addresses[0]?.email_address,
-      image_url: image_url,
-      username: username,
+      image_url: image_url!,
+      username: username!,
     });
     const newUser = await userCreated(user);
+
 
     if (newUser) {
       const client = await clerkClient();
       await client.users.updateUserMetadata(id, {
-        publicMetadata: {
+        publicMetadata:{
           user_id: newUser._id,
-        },
+        }
       });
     }
 
