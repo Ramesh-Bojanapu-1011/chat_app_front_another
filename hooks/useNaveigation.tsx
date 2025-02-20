@@ -11,14 +11,14 @@ const useNaveigation = () => {
         name: 'Conversations',
         href: '/conversations',
         icon: <MessageCircle />,
-        active: pathname.startsWith('/conversations'),
+        active: pathname?.startsWith('/conversations'),
       },
       {
         name: 'Friends',
         href: '/friends',
         icon: <ContactRound />,
 
-        active: pathname.startsWith('/friends'),
+        active: pathname?.startsWith('/friends'),
       },
     ],
     [pathname]
