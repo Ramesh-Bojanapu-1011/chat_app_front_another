@@ -5,7 +5,7 @@ import User from '@/data/models/User';
 import { userCreated } from '@/action/user.action';
 import { NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
 
   if (!SIGNING_SECRET) {
