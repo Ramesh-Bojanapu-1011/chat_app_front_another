@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    // required: true,
     unique: true,
   },
   firstName: {
@@ -18,14 +18,14 @@ const UserSchema = new mongoose.Schema({
   },
   clerkId: {
     type: String,
-    required: true,
+    // required: true,
     unique: true,
   },
   email: { type: String, required: true, unique: true },
-  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  isOnline: { type: Boolean, default: false },
-  lastSeen: { type: Date, default: null },
+  // friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  // friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  // isOnline: { type: Boolean, default: false },
+  // lastSeen: { type: Date, default: null },
 });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);
