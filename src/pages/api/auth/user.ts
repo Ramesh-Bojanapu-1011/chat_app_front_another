@@ -10,10 +10,11 @@ export default async function handler(
 
   try {
     await connectDB();
-    const { clerkId, email, name } = req.body as {
+    const { clerkId, email, fullName, image_url } = req.body as {
       clerkId: string;
       email: string;
-      name?: string;
+      fullName?: string;
+      image_url?: string;
     };
 
     // Check if user already exists
@@ -21,7 +22,7 @@ export default async function handler(
 
     if (!user) {
       // Save new user
-      user = new User({ clerkId, email, name });
+      user = new User({ clerkId, email, fullName, image_url });
       await user.save();
     }
 
