@@ -1,5 +1,6 @@
 import { connectDB } from '@/data/database/mangodb';
 import User from '@/data/models/User';
+import { clerkClient } from '@clerk/nextjs/server';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -10,11 +11,12 @@ export default async function handler(
 
   try {
     await connectDB();
-    const { clerkId, email, fullName, image_url } = req.body as {
+    const { clerkId, email, fullName, image_url, username } = req.body as {
       clerkId: string;
       email: string;
       fullName?: string;
       image_url?: string;
+      username?: string;
     };
 
     // Check if user already exists
@@ -22,9 +24,18 @@ export default async function handler(
 
     if (!user) {
       // Save new user
-      user = new User({ clerkId, email, fullName, image_url });
+      user = new User({ username, clerkId, email, fullName, image_url });
       await user.save();
     }
+
+    const client = await clerkClient();
+
+    // Update user metadata
+    await client.users.updateUser(clerkId, {
+      publicMetadata: {
+        clerkId: user._id,
+      },
+    });
 
     res.status(200).json({ user });
   } catch (error) {
