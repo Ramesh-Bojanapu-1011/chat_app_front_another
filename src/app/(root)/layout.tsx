@@ -27,18 +27,22 @@ const layout = ({ children }: Props) => {
           fullname: user.fullName,
         }),
       });
+    }
+  }, [user, isSignedIn]);
 
+  useEffect(() => {
+    if (user) {
       socket.on('connect', () => {
         console.log('Socket Connected:', socket.id);
       });
       socket.emit('userOnline', user.id); // Register user as online
       console.log('🔵 User Online:', user.id);
     }
-  }, [user, isSignedIn]);
+  }, [user, socket]);
   if (!isLoaded) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">
-        <Loader seed={10} size={100} />
+        <div className="loader"></div>
       </div>
     );
   }
