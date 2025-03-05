@@ -2,7 +2,6 @@
 import SidebarWraper from '@/components/shared/sidebar/SidebarWraper';
 import { getSocket } from '@/data/utils/socket';
 import { useUser } from '@clerk/nextjs';
-import { Loader, LoaderPinwheelIcon } from 'lucide-react';
 
 import React, { useEffect } from 'react';
 

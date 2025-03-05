@@ -18,12 +18,12 @@ const ItemList = ({ children, title, action }: Props) => {
         'lg:block': !isActive,
       })}
     >
-      <div className="mb-4 flex  flex-col justify-between">
+      <div className="mb-4 flex  flex-row justify-between">
         <h1 className="text-2xl font-semibold  tracking-tight">{title}</h1>
         {action ? action : null}
-        <div className="w-full h-full flex flex-col justify-start items-center  gap-2">
-          {children}
-        </div>
+      </div>
+      <div className="w-full h-full flex flex-col justify-start items-center  gap-2">
+        {children}
       </div>
     </Card>
   );
