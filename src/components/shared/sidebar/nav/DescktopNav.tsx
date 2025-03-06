@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ModeToggle } from '@/components/mode-toggle';
 import { UserButton } from '@clerk/nextjs';
+import { Badge } from '@/components/ui/badge';
 
 const DescktopNav = () => {
   const navItems = useNaveigation();
@@ -18,26 +19,38 @@ const DescktopNav = () => {
   return (
     <Card className="hidden lg:flex lg:justify-between lg:px-4 lg:py-4 lg:w-[60px] lg:flex-col lg:gap-4">
       <ul className="flex flex-col gap-4 items-center justify-center">
-        {navItems.map((item, id) => (
-          <li key={id}>
-            <Link href={item.href}>
-              <Tooltip>
-                <TooltipTrigger asChild={true}>
-                  <Button
-                    size="icon"
-                    variant={item.active ? 'default' : 'outline'}
-                  >
-                    {/* <button className=""></button> */}
-                    {item.icon}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{item.name}</p>
-                </TooltipContent>
-              </Tooltip>
-            </Link>
-          </li>
-        ))}
+        {navItems.map((item, id) => {
+          return (
+            <li key={id}>
+              <Link href={item.href}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant={item.active ? 'default' : 'outline'}
+                    >
+                      {item.icon}
+                      {item.count ? null : (
+                        <>
+                          {item.count == 0 ? null : (
+                            <>
+                              <Badge className=" absolute w-4 h-4 justify-center left-[50px] top-[58px]">
+                                {String(item.count)}
+                              </Badge>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{item.name}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
       <div className="flex flex-col gap-4 items-center justify-center">
         <ModeToggle />

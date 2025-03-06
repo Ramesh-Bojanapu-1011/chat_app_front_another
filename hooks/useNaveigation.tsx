@@ -1,9 +1,27 @@
+import { useUser } from '@clerk/nextjs';
 import { ContactRound, MessageCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import React, { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const useNaveigation = () => {
   const pathname = usePathname();
+
+  const { user } = useUser();
+  const [requestcount, setRequestCount] = useState<Number>();
+  useEffect(() => {
+    if (user) {
+      fetch('/api/friends/friendrequestcount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.requestcount);
+          setRequestCount(data.requestcount);
+        });
+    }
+  }, [user]);
 
   const paths = useMemo(
     () => [
@@ -17,11 +35,11 @@ const useNaveigation = () => {
         name: 'Friends',
         href: '/friends',
         icon: <ContactRound />,
-
+        count: requestcount,
         active: pathname?.startsWith('/friends'),
       },
     ],
-    [pathname]
+    [pathname, requestcount]
   );
 
   return paths;

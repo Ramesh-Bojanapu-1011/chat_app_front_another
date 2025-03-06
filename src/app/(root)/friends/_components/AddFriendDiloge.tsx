@@ -48,8 +48,10 @@ const AddFriendDiloge = () => {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <UserPlus />
+      <DialogTrigger asChild>
+        <Button size={'icon'} variant={'outline'}>
+          <UserPlus />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>hello</DialogTitle>

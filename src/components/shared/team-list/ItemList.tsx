@@ -13,7 +13,7 @@ const ItemList = ({ children, title, action }: Props) => {
   const { isActive } = useCoversation();
   return (
     <Card
-      className={cn('hidden lg:flex-none lg:w-80 p-2', {
+      className={cn('hidden  w-full lg:flex-none lg:w-80 p-2', {
         block: isActive,
         'lg:block': !isActive,
       })}
@@ -22,7 +22,7 @@ const ItemList = ({ children, title, action }: Props) => {
         <h1 className="text-2xl font-semibold  tracking-tight">{title}</h1>
         {action ? action : null}
       </div>
-      <div className="flex flex-col justify-start items-center  gap-2">
+      <div className="w-full  flex flex-col justify-start items-center  gap-2">
         {children}
       </div>
     </Card>
