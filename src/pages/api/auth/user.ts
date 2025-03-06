@@ -27,6 +27,14 @@ export default async function handler(
       user = new User({ username, clerkId, email, fullName, image_url });
       await user.save();
     }
+    // Update existing user
+    else {
+      user.username = username;
+      user.fullName = fullName;
+      user.email = email;
+      user.image_url = image_url;
+      await user.save();
+    }
 
     const client = await clerkClient();
 

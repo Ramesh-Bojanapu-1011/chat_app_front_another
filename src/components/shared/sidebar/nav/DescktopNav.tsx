@@ -30,15 +30,11 @@ const DescktopNav = () => {
                       variant={item.active ? 'default' : 'outline'}
                     >
                       {item.icon}
-                      {item.count ? null : (
+                      {item.count !== undefined && Number(item.count) > 0 && (
                         <>
-                          {item.count == 0 ? null : (
-                            <>
-                              <Badge className=" absolute w-4 h-4 justify-center left-[50px] top-[58px]">
-                                {String(item.count)}
-                              </Badge>
-                            </>
-                          )}
+                          <Badge className=" absolute w-4 h-4 justify-center left-[50px] top-[58px]">
+                            {String(item.count)}
+                          </Badge>
                         </>
                       )}
                     </Button>

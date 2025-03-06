@@ -21,7 +21,7 @@ const layout = ({ children }: Props) => {
           clerkId: user.id,
           username: user.username,
           email: user.primaryEmailAddress?.emailAddress,
-          name: user.fullName,
+          fullName: user.fullName,
           image_url: user.imageUrl,
           fullname: user.fullName,
         }),

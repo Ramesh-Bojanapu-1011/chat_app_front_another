@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 import { UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useUser } from '@clerk/nextjs';
 
 const AddFriendFormSchema = z.object({
   email: z
@@ -37,11 +38,31 @@ const AddFriendDiloge = () => {
       email: '',
     },
   });
+  const { user } = useUser();
 
-  const handleSubmit = (data: FieldValues) => {
-    console.log(data);
+  const handleSubmit = async (data: FieldValues) => {
+    // console.log(data.email, user?.publicMetadata.clerkId);
+    try {
+      const res = await fetch('/api/friends/sendRequest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          friendEmail: data.email,
+          userId: user?.publicMetadata.clerkId,
+        }),
+      });
+      const details = await res.json();
 
-    toast.success('Friend request sent');
+      console.log(details);
+
+      if (res.ok) {
+        toast.success('Friend request sent successfully');
+      } else {
+        toast.error(details.error);
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
 
     form.reset();
   };
