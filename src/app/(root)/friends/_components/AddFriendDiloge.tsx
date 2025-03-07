@@ -23,6 +23,11 @@ import { UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useUser } from '@clerk/nextjs';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const AddFriendFormSchema = z.object({
   email: z
@@ -69,11 +74,16 @@ const AddFriendDiloge = () => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button size={'icon'} variant={'outline'}>
-          <UserPlus />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button size={'icon'} variant={'outline'}>
+              <UserPlus />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Add Friend</TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogTitle>hello</DialogTitle>
         <DialogDescription>send Friend request</DialogDescription>
