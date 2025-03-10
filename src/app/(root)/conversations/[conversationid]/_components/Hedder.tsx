@@ -5,6 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { FriendDetails } from '@/data/interfaces/intefaces';
 
 import { MoveLeft, User, PhoneCall, Video } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -13,19 +14,6 @@ type Props = {
   receiverId: any;
 };
 
-interface FriendDetails {
-  _id: string;
-  username: string;
-  fullName: string;
-  image_url: string;
-  clerkId: string;
-  email: string;
-  friends: string[]; // Array of user IDs
-  friendRequests: string[]; // Array of user IDs
-  isOnline: boolean;
-  lastSeen: string | null; // Can be a timestamp or null
-  __v: number;
-}
 const Hedder = (props: Props) => {
   const [friendDetails, setFriendDetails] = useState<FriendDetails>();
 
@@ -36,7 +24,6 @@ const Hedder = (props: Props) => {
         setFriendDetails(data);
       });
   }, [props.receiverId]);
-  console.log(friendDetails);
   const formatLastSeen = (date: any) => {
     if (!date) return 'Unknown';
     const diff = Math.floor(
@@ -53,6 +40,7 @@ const Hedder = (props: Props) => {
         <Button
           size={'icon'}
           variant={'outline'}
+          className="lg:hidden"
           onClick={() => window.history.back()}
         >
           <MoveLeft />

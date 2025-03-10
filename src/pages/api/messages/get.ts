@@ -38,8 +38,8 @@ export default async function handler(
         { senderId: receiverObjectId, receiverId: senderObjectId },
       ],
     })
-      .populate('senderId', 'username email') // Populate sender details
-      .populate('receiverId', 'username email') // Populate receiver details
+      .populate('senderId', 'username email image_url') // Populate sender details
+      .populate('receiverId', 'username email image_url') // Populate receiver details
       .sort({ createdAt: 1 });
 
     return res.status(200).json({ messages });

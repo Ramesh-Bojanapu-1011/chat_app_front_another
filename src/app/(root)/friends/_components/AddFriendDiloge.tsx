@@ -46,7 +46,6 @@ const AddFriendDiloge = () => {
   const { user } = useUser();
 
   const handleSubmit = async (data: FieldValues) => {
-    // console.log(data.email, user?.publicMetadata.clerkId);
     try {
       const res = await fetch('/api/friends/sendRequest', {
         method: 'POST',
@@ -57,8 +56,6 @@ const AddFriendDiloge = () => {
         }),
       });
       const details = await res.json();
-
-      console.log(details);
 
       if (res.ok) {
         toast.success('Friend request sent successfully');

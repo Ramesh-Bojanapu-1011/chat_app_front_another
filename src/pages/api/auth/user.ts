@@ -47,7 +47,7 @@ export default async function handler(
 
     res.status(200).json({ user });
   } catch (error) {
-    console.log('Error saving user:', error);
+    // console.log('Error saving user:', error);
     res.status(500).json({ error: 'Error saving user' });
   }
 }

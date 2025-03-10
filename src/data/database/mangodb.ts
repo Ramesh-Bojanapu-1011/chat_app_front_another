@@ -16,7 +16,7 @@ export async function connectDB(): Promise<typeof mongoose> {
       cached.promise = mongoose
         .connect(MONGODB_URI, {})
         .then((mongoose) => mongoose);
-      console.log('MongoDB Connected');
+      // console.log('MongoDB Connected');
     } else {
       throw new Error('MONGODB_URI is not a string');
     }

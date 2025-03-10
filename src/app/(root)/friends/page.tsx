@@ -9,30 +9,13 @@ import { useEffect, useState } from 'react';
 import AddFriendDiloge from './_components/AddFriendDiloge';
 import Request from './_components/Request';
 import Link from 'next/link';
-interface RequestData {
-  _id: string;
-  username: string;
-  email: string;
-  image_url: string;
-  fullName: string;
-}
-interface RequestsObject {
-  requests: RequestData[];
-}
-
-interface Friend {
-  _id: string;
-  isOnline: boolean;
-  lastSeen: Date;
-  image_url: string;
-  fullName: string;
-}
+import { ReceiverDetails, RequestsObject } from '@/data/interfaces/intefaces';
 
 const Friendspage = () => {
   const { user } = useUser();
   const userId = user?.publicMetadata.clerkId;
   const [requests, setRequests] = useState<RequestsObject>();
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<ReceiverDetails[]>([]);
   useEffect(() => {
     if (user) {
       fetch(`/api/friends/getRequests?userId=${user?.publicMetadata.clerkId}`, {
@@ -50,8 +33,6 @@ const Friendspage = () => {
       .then((res) => res.json())
       .then(setFriends);
   }, [userId]);
-
-  console.log(friends);
 
   return (
     <>

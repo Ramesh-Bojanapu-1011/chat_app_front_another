@@ -16,16 +16,15 @@ type Props = {
 const Request = (props: Props) => {
   const { user } = useUser();
   const userId = user?.publicMetadata.clerkId;
-  console.log(userId);
+
   const handleRequest = async (action: 'accept' | 'reject') => {
     await fetch('/api/friends/handleRequest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: userId, friendId: props.id, action }),
     });
-    window.location.reload();
   };
-  console.log(props);
+
   return (
     <>
       <p>Friend Request</p>

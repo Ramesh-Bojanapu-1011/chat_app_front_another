@@ -17,7 +17,6 @@ const useNaveigation = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.requestcount);
           setRequestCount(data.requestcount);
         });
     }

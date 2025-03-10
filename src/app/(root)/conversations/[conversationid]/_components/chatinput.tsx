@@ -7,15 +7,17 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Message } from '@/data/interfaces/intefaces';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SendHorizonalIcon } from 'lucide-react';
 import { FieldValues, useForm } from 'react-hook-form';
+import TextareaAutosize from 'react-textarea-autosize';
 import { z } from 'zod';
 
 type Props = {
   userId: string;
   friendId: string;
+  setNewMessage: (message: Message) => void; // Accept function as prop
 };
 
 const ChatInputFormSchema = z.object({
@@ -28,12 +30,10 @@ const Chatinput = (props: Props) => {
     resolver: zodResolver(ChatInputFormSchema),
     defaultValues: {
       message: '',
-      // file: null,
     },
   });
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     if (!data.message.trim()) return;
     const res = await fetch('/api/messages/save', {
       method: 'POST',
@@ -47,6 +47,8 @@ const Chatinput = (props: Props) => {
       }),
     });
     form.reset();
+    const NewMessageDetails = await res.json();
+    props.setNewMessage(NewMessageDetails);
   };
 
   return (
@@ -54,7 +56,7 @@ const Chatinput = (props: Props) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className=" flex w-full justify-between "
+          className=" flex w-full justify-between items-center "
         >
           <FormField
             control={form.control}
@@ -62,12 +64,18 @@ const Chatinput = (props: Props) => {
             render={({ field }) => {
               return (
                 <>
-                  <FormItem className="flex w-full">
+                  <FormItem className="flex w-full ">
                     <FormControl>
-                      <Input
-                        type="text"
-                        // className="w-full"
-                        // name="message"
+                      <TextareaAutosize
+                        rows={1}
+                        maxRows={3}
+                        onKeyDown={async (e: any) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            await onSubmit(form.getValues());
+                          }
+                        }}
+                        className="min-h-full w-full m-2 border-0 outline-none"
                         placeholder="enter message to send"
                         {...field}
                       />
