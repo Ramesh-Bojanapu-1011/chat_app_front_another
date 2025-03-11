@@ -11,7 +11,7 @@ export default async function handler(
   await connectDB();
   const { userId } = req.query;
 
-  const user = await User.findOne({clerkId:userId}).populate(
+  const user = await User.findOne({ clerkId: userId }).populate(
     'friends',
     'image_url isOnline lastSeen fullName'
   );

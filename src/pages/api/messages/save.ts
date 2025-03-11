@@ -34,14 +34,14 @@ export default async function handler(
     // // If no conversation exists, create a new one
     if (!conversation) {
       conversation = await Conversation.create({
-        members: [senderId, receiverId],
+        members: [senderObjectId, receiverObjectId],
         lastMessage: newMessage,
-        updatedAt: new Date(),
+        createdAt: new Date(),
       });
     } else {
       // Update lastMessage and updatedAt
       conversation.lastMessage = newMessage;
-      conversation.updatedAt = new Date();
+      conversation.createdAt = new Date();
       await conversation.save();
     }
 
