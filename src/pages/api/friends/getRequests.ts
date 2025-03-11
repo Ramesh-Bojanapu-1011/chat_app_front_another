@@ -19,7 +19,7 @@ export default async function handler(
       return res.status(400).json({ error: 'User ID is required' });
     }
 
-    const user = await User.findById(userId).populate(
+    const user = await User.findOne({clerkId:userId}).populate(
       'friendRequests',
       'username email image_url fullName'
     );

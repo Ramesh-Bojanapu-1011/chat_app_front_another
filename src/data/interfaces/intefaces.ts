@@ -46,3 +46,35 @@ export interface ReceiverDetails {
   image_url: string;
   fullName: string;
 }
+
+export interface ChatMembers {
+  _id: string;
+  members: [
+    {
+      _id: string;
+      username: string;
+      fullName?: string;
+      image_url: string;
+      clerkId: string;
+      email: string;
+      friends: string[];
+      friendRequests: string[];
+      isOnline: boolean;
+      lastSeen: string;
+      __v: number;
+      updatedAt: string;
+    },
+  ];
+  lastMessage: {
+    _id: string;
+    senderId: string;
+    receiverId: string;
+    message?: string;
+    fileUrl?: string;
+    isRead: boolean;
+    isReadAt: Date;
+    createdAt: string;
+  };
+  createdAt: string;
+  __v: number;
+}

@@ -111,9 +111,13 @@ const Messages = (props: Props) => {
                   <p className="text-wrap break-words break-all whitespace-pre-wrap">
                     {message.message}
                   </p>
-                  <p className="flex w-full justify-end">
-                    {formatTime(message.createdAt)}
-                  </p>
+                  <div className="flex ">
+                    {message.isRead ? <></> : <></>}
+
+                    <p className="flex w-full justify-end">
+                      {formatTime(message.createdAt)}
+                    </p>
+                  </div>
                 </div>
               </div>
               <Avatar
@@ -137,65 +141,3 @@ const Messages = (props: Props) => {
 };
 
 export default Messages;
-
-// <div
-// key={index}
-// className={`flex   items-center  ${message.senderId._id === props.userId ? 'justify-end  ' : 'justify-start   '}`}
-// >
-// <div
-//   className={`flex  max-w-[70%] w-fit flex-wrap p-4 rounded-lg ${message.senderId._id === props.userId ? ' bg-[#3ad340]' : ' bg-[#7484ac]'}  `}
-// >
-//   <p className=" break-all    ">{message.message}</p>
-
-//   <div className="flex justify-end items-center gap-2  w-full">
-//     <div>
-//       {message.isRead == false ? (
-//         <svg
-//           xmlns="http://www.w3.org/2000/svg"
-//           width={15}
-//           height={15}
-//           viewBox="0 0 24 24"
-//         >
-//           <path
-//             fill="none"
-//             stroke="#fff"
-//             strokeLinecap="round"
-//             strokeLinejoin="round"
-//             strokeWidth={1.4}
-//             d="M18 6L7 17l-5-5m20-2l-7.5 7.5L13 16"
-//           ></path>
-//         </svg>
-//       ) : (
-//         <svg
-//           xmlns="http://www.w3.org/2000/svg"
-//           width={17}
-//           height={17}
-//           viewBox="0 0 24 24"
-//         >
-//           <path
-//             fill="none"
-//             stroke="#005eff"
-//             strokeLinecap="round"
-//             strokeLinejoin="round"
-//             strokeWidth={2}
-//             d="M18 6L7 17l-5-5m20-2l-7.5 7.5L13 16"
-//           ></path>
-//         </svg>
-//       )}
-//     </div>
-
-//     <p className={``}>{formatTime(message.createdAt)}</p>
-//   </div>
-// </div>
-// <div className="pl-2">
-//   <Avatar
-//     className={`
-// ${lastbyuser && message.senderId._id == props.userId && 'invisible'}`}
-//   >
-//     <AvatarImage src={message.senderId.image_url} />
-//     <AvatarFallback>
-//       <User2Icon />
-//     </AvatarFallback>
-//   </Avatar>
-// </div>
-// </div>

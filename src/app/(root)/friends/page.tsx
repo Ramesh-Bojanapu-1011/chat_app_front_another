@@ -13,12 +13,11 @@ import { ReceiverDetails, RequestsObject } from '@/data/interfaces/intefaces';
 
 const Friendspage = () => {
   const { user } = useUser();
-  const userId = user?.publicMetadata.clerkId;
   const [requests, setRequests] = useState<RequestsObject>();
   const [friends, setFriends] = useState<ReceiverDetails[]>([]);
   useEffect(() => {
     if (user) {
-      fetch(`/api/friends/getRequests?userId=${user?.publicMetadata.clerkId}`, {
+      fetch(`/api/friends/getRequests?userId=${user.id}`, {
         method: 'GET',
       })
         .then((res) => res.json())
@@ -29,10 +28,10 @@ const Friendspage = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`/api/friends/${userId}`)
+    fetch(`/api/friends/${user?.id}`)
       .then((res) => res.json())
       .then(setFriends);
-  }, [userId]);
+  }, [user]);
 
   return (
     <>
@@ -68,24 +67,19 @@ const Friendspage = () => {
               return (
                 <Card key={index} className=" flex w-full p-2 ">
                   <Link href={'/conversations/' + user._id}>
-                    <div className="flex items-center ">
+                    <div className="flex items-center justify-between ">
                       <Avatar>
                         <AvatarImage src={user.image_url} />
                         <AvatarFallback>
                           <User />
                         </AvatarFallback>
                       </Avatar>
-                      {user.isOnline == true && (
-                        <>
-                          <div className=" absolute w-3 h-3 flex bg-primary border-2 border-white rounded-full"></div>
-                        </>
-                      )}
 
-                      <div>
-                        <h2 className="text-lg font-bold">{user.fullName}</h2>
+                      <div className="flex">
+                        <h2 className="text-lg  font-bold">{user.fullName}</h2>
                       </div>
-                      <div>
-                        <p className="text-sm text-gray-500">
+                      <div className="flex">
+                        <p className="text-sm  text-gray-500">
                           {user.isOnline == true ? <>yes</> : <>no</>}
                         </p>
                       </div>

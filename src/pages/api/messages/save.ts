@@ -35,12 +35,12 @@ export default async function handler(
     if (!conversation) {
       conversation = await Conversation.create({
         members: [senderId, receiverId],
-        lastMessage: newMessage._id,
+        lastMessage: newMessage,
         updatedAt: new Date(),
       });
     } else {
       // Update lastMessage and updatedAt
-      conversation.lastMessage = newMessage._id;
+      conversation.lastMessage = newMessage;
       conversation.updatedAt = new Date();
       await conversation.save();
     }
