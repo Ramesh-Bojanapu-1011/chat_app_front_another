@@ -38,7 +38,7 @@ const Conversationslayout = ({ children }: Props) => {
   return (
     <>
       <ItemList title={'Conversations'}>
-        <div className=" flex  flex-col gap-2 ">
+        <div className=" flex w-full flex-col gap-2 ">
           {conversations && conversations.length === 0 && <p>No members</p>}
 
           {conversations.map((conv: ChatMembers) => (
