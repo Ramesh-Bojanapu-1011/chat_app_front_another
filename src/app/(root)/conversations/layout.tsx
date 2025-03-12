@@ -15,14 +15,14 @@ const Conversationslayout = ({ children }: Props) => {
 
   const [conversations, setConversations] = useState([]);
 
-  useEffect(() => {
-    fetch(`/api/conversations/${user?.publicMetadata.clerkId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setConversations(data);
-      });
-  }, [user?.publicMetadata.clerkId]);
+ useEffect(() => {
+     fetch(`/api/conversations/${user?.id}`)
+       .then((res) => res.json())
+       .then((data) => {
+         console.log(data);
+         setConversations(data);
+       });
+   }, [user?.id]);
 
   const formatLastSeen = (date: any) => {
     if (!date) return 'Unknown';

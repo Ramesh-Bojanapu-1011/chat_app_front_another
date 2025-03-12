@@ -23,7 +23,7 @@ const MobileNav = () => {
         hidden: !isActive,
       })}
     >
-      <Card className="fixed bg-[#FFFFFF] bottom-3 w-[calc(100vw-22px)]  lg:hidden p-3">
+      <Card className="fixed bottom-3 w-[calc(100vw-22px)]  lg:hidden p-3">
         <ul className="flex flex-row justify-evenly gap-4">
           {navItems.map((item, id) => (
             <li key={id}>
