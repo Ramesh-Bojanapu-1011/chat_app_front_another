@@ -56,7 +56,7 @@ const Chatinput = (props: Props) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className=" flex w-full justify-between items-center "
+          className="flex w-full justify-between items-center "
         >
           <FormField
             control={form.control}

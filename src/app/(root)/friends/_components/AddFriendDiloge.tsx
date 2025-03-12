@@ -87,7 +87,7 @@ const AddFriendDiloge = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className=" space-y-8"
+            className="space-y-8"
           >
             <FormField
               control={form.control}

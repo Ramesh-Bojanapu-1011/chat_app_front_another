@@ -9,7 +9,7 @@ const SidebarWraper = ({ children }: Props) => {
     <div className="h-full w-full flex  flex-col lg:flex-row gap-4">
       <MobileNav />
       <DescktopNav />
-      <main className=" h-full w-full flex gap-4">{children}</main>
+      <main className="h-full w-full flex gap-4">{children}</main>
     </div>
   );
 };

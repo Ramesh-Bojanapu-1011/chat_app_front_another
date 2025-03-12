@@ -65,7 +65,7 @@ const Friendspage = () => {
             <p>Friends</p>
             {friends.map((user, index) => {
               return (
-                <Card key={index} className=" flex w-full p-2 ">
+                <Card key={index} className="flex w-full p-2 ">
                   <Link href={'/conversations/' + user._id}>
                     <div className="flex items-center justify-between ">
                       <Avatar>

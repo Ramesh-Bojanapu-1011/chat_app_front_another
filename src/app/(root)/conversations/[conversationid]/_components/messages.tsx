@@ -77,7 +77,7 @@ const Messages = (props: Props) => {
   };
   return (
     <div className="w-full flex h-full  lg:px-11 overflow-y-auto">
-      <div className=" w-full flex flex-col gap-3">
+      <div className="w-full flex flex-col gap-3">
         {messages.map((message, index) => {
           const lastbyuser =
             messages[index + 1]?.senderId._id === messages[index].senderId._id;

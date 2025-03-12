@@ -37,7 +37,7 @@ const Request = (props: Props) => {
             </AvatarFallback>
           </Avatar>
           <div className="max-w-[160px]">
-            <h2 className=" text-lg font-bold  ">{props.fullname}</h2>
+            <h2 className="text-lg font-bold  ">{props.fullname}</h2>
             <p className="">{props.email}</p>
           </div>
           <div>

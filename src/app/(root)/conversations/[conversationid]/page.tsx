@@ -19,7 +19,7 @@ const ConversationPerId = () => {
     <>
       <ConversationContainer>
         {conversationId && (
-          <Card className=" p-2  h-full  flex flex-col justify-between items-center">
+          <Card className="p-2  h-full  flex flex-col justify-between items-center">
             <Hedder receiverId={conversationId} />
 
             <Messages

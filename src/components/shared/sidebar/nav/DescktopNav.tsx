@@ -32,7 +32,7 @@ const DescktopNav = () => {
                       {item.icon}
                       {item.count !== undefined && Number(item.count) > 0 && (
                         <>
-                          <Badge className=" absolute w-4 h-4 justify-center left-[50px] top-[58px]">
+                          <Badge className="absolute w-4 h-4 justify-center left-[50px] top-[58px]">
                             {String(item.count)}
                           </Badge>
                         </>

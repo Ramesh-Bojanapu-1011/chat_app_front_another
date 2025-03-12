@@ -35,8 +35,8 @@ const Hedder = (props: Props) => {
     return `${Math.floor(diff / (24 * 60))} days ago`;
   };
   return (
-    <div className=" flex justify-between w-full border-b-2 border-red-50">
-      <div className=" flex items-center  gap-2">
+    <div className="flex justify-between w-full border-b-2 border-red-50">
+      <div className="flex items-center  gap-2">
         <Button
           size={'icon'}
           variant={'outline'}
