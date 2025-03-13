@@ -24,7 +24,7 @@ const Conversationslayout = ({ children }: Props) => {
         setLoading(false);
         setConversations(data);
       });
-  }, [user?.id]);
+  }, [user]);
 
   const formatLastSeen = (date: any) => {
     if (!date) return 'Unknown';

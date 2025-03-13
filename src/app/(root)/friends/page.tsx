@@ -40,6 +40,7 @@ const Friendspage = () => {
           <>
             {requests.requests.length > 0 ? (
               <>
+                <p>Friend Request</p>
                 {requests.requests.map((req, index) => {
                   return (
                     <Request

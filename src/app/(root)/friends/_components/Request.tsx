@@ -27,7 +27,7 @@ const Request = (props: Props) => {
 
   return (
     <>
-      <p>Friend Request</p>
+      
       <Card className="w-full p-2 flex items-center justify-between flex-shrink gap-2">
         <div className="flex gap-1 truncate items-center">
           <Avatar>
