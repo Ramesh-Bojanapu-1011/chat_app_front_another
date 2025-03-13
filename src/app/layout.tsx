@@ -4,7 +4,6 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ClerkProvider } from '@clerk/nextjs';
-import { dark, neobrutalism } from '@clerk/themes';
 import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({

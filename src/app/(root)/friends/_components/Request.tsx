@@ -27,9 +27,8 @@ const Request = (props: Props) => {
 
   return (
     <>
-      
-      <Card className="w-full p-2 flex items-center justify-between flex-shrink gap-2">
-        <div className="flex gap-1 truncate items-center">
+      <Card className="flex items-center justify-between flex-shrink w-full gap-2 p-2">
+        <div className="flex items-center gap-1 truncate">
           <Avatar>
             <AvatarImage src={props.image_url} />
             <AvatarFallback>
@@ -37,7 +36,7 @@ const Request = (props: Props) => {
             </AvatarFallback>
           </Avatar>
           <div className="max-w-[160px]">
-            <h2 className="text-lg font-bold  ">{props.fullname}</h2>
+            <h2 className="text-lg font-bold ">{props.fullname}</h2>
             <p className="">{props.email}</p>
           </div>
           <div>

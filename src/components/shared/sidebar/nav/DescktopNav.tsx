@@ -18,7 +18,7 @@ const DescktopNav = () => {
 
   return (
     <Card className="hidden lg:flex lg:justify-between lg:px-4 lg:py-4 lg:w-[60px] lg:flex-col lg:gap-4">
-      <ul className="flex flex-col gap-4 items-center justify-center">
+      <ul className="flex flex-col items-center justify-center gap-4">
         {navItems.map((item, id) => {
           return (
             <li key={id}>
@@ -32,7 +32,7 @@ const DescktopNav = () => {
                       {item.icon}
                       {item.count !== undefined && Number(item.count) > 0 && (
                         <>
-                          <Badge className="absolute w-4 h-4 justify-center left-[50px] top-[58px]">
+                          <Badge className="absolute w-4 h-4 justify-center left-[40px] top-[58px]">
                             {String(item.count)}
                           </Badge>
                         </>
@@ -48,7 +48,7 @@ const DescktopNav = () => {
           );
         })}
       </ul>
-      <div className="flex flex-col gap-4 items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-4">
         <ModeToggle />
         <UserButton />
       </div>
