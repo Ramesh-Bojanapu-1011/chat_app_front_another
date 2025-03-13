@@ -76,8 +76,8 @@ const Messages = (props: Props) => {
     });
   };
   return (
-    <div className="w-full flex h-full  lg:px-11 overflow-y-auto">
-      <div className="w-full flex flex-col gap-3">
+    <div className="flex w-full h-full overflow-y-auto lg:px-11">
+      <div className="flex flex-col w-full gap-3">
         {messages.map((message, index) => {
           const lastbyuser =
             messages[index + 1]?.senderId._id === messages[index].senderId._id;
@@ -108,13 +108,18 @@ const Messages = (props: Props) => {
                       message.senderId._id != props.userId && lastbyuser,
                   })}
                 >
-                  <p className="text-wrap break-words break-all whitespace-pre-wrap">
+                  {message.fileUrl && (
+                    <>
+                      <img src={message.fileUrl} alt="" />
+                    </>
+                  )}
+                  <p className="break-words break-all whitespace-pre-wrap text-wrap">
                     {message.message}
                   </p>
                   <div className="flex ">
                     {message.isRead ? <></> : <></>}
 
-                    <p className="flex w-full justify-end">
+                    <p className="flex justify-end w-full">
                       {formatTime(message.createdAt)}
                     </p>
                   </div>

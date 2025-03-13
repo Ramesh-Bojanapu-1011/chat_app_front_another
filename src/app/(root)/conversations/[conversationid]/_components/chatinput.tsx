@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/form';
 import { Message } from '@/data/interfaces/intefaces';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SendHorizonalIcon } from 'lucide-react';
+import { Paperclip, SendHorizonalIcon } from 'lucide-react';
 import { FieldValues, useForm } from 'react-hook-form';
 import TextareaAutosize from 'react-textarea-autosize';
 import { z } from 'zod';
@@ -20,21 +20,46 @@ type Props = {
   setNewMessage: (message: Message) => void; // Accept function as prop
 };
 
-const ChatInputFormSchema = z.object({
-  message: z.string().min(1, { message: `This field is con't be empty` }),
-  // file: z.file().optional(),
-});
+const ChatInputFormSchema = z
+  .object({
+    message: z.string().optional(),
+    file: z
+      .instanceof(File)
+      .optional()
+      .refine((file) => file && file.size > 0, { message: 'File is required' })
+      .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
+        message: 'File size must be under 5MB',
+      }),
+  })
+  .refine((data) => data.message || data.file, {
+    message: 'You must send either a message or a file.',
+  });
 
 const Chatinput = (props: Props) => {
   const form = useForm({
     resolver: zodResolver(ChatInputFormSchema),
     defaultValues: {
       message: '',
+      file: undefined,
     },
   });
 
   const onSubmit = async (data: FieldValues) => {
-    if (!data.message.trim()) return;
+    const file = data.file;
+    console.log(file);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(
+      `/api/upload?senderId=${props.userId}&receiverId=${props.friendId},`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const fileUrl = await response.json();
+    console.log(fileUrl);
+
     const res = await fetch('/api/messages/save', {
       method: 'POST',
       headers: {
@@ -44,6 +69,7 @@ const Chatinput = (props: Props) => {
         senderId: props.userId,
         receiverId: props.friendId,
         message: data.message,
+        fileUrl: data.file ? fileUrl.fileUrl : undefined,
       }),
     });
     form.reset();
@@ -56,56 +82,75 @@ const Chatinput = (props: Props) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full justify-between items-center "
+          className="flex items-center justify-between w-full "
         >
           <FormField
             control={form.control}
-            name={'message'}
+            name="message"
             render={({ field }) => {
               return (
-                <>
-                  <FormItem className="flex w-full ">
-                    <FormControl>
-                      <TextareaAutosize
-                        rows={1}
-                        maxRows={3}
-                        onKeyDown={async (e: any) => {
-                          if (e.key === 'Enter' && !e.shiftKey) {
-                            e.preventDefault();
-                            await onSubmit(form.getValues());
-                          }
-                        }}
-                        className="min-h-full w-full m-2 border-0 outline-none"
-                        placeholder="enter message to send"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                </>
+                <FormItem className="flex w-full">
+                  <FormControl>
+                    <TextareaAutosize
+                      rows={1}
+                      maxRows={3}
+                      onKeyDown={async (e: any) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          await onSubmit(form.getValues());
+                        }
+                      }}
+                      className="w-full min-h-full m-2 border-0 outline-none"
+                      placeholder="enter message to send"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               );
             }}
-          ></FormField>
+          />
+          <FormField
+            control={form.control}
+            name="file"
+            render={({ field }) => {
+              return (
+                <FormItem className="flex w-fit">
+                  <FormControl>
+                    <div>
+                      <input
+                        id="fileInput"
+                        type="file"
+                        className="hidden "
+                        accept="image/*"
+                        onChange={(e) => field.onChange(e.target.files?.[0])}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                      />
+                      <Button
+                        type="button"
+                        className="p-2"
+                        onClick={() =>
+                          document.getElementById('fileInput')?.click()
+                        }
+                      >
+                        <Paperclip size={20} />
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+
           <Button disabled={false} type="submit">
             <SendHorizonalIcon />
           </Button>
         </form>
       </Form>
     </Card>
-    // <div className="h-7 flex gap-3 w-full m-3">
-    //   <Tooltip>
-    //     <TooltipTrigger asChild>
-    //       <Button>
-    //         <FilePlus />
-    //       </Button>
-    //     </TooltipTrigger>
-    //     <TooltipContent>select file</TooltipContent>
-    //   </Tooltip>
-    //   <Input placeholder="enter message to send " />
-    //   <Button>
-    //
-    //   </Button>
-    // </div>
   );
 };
 

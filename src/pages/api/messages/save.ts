@@ -16,7 +16,7 @@ export default async function handler(
     await connectDB();
 
     const { senderId, receiverId, message, fileUrl } = req.body;
-    if (!senderId || !receiverId || !message) {
+    if (!senderId || !receiverId) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
