@@ -13,6 +13,7 @@ import { ModeToggle } from '@/components/mode-toggle';
 import useCoversation from '../../../../../hooks/useCoversation';
 import { UserButton } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 const MobileNav = () => {
   const navItems = useNaveigation();
@@ -24,7 +25,7 @@ const MobileNav = () => {
       })}
     >
       <Card className="fixed bottom-3 w-[calc(100vw-22px)]  lg:hidden p-3">
-        <ul className="flex flex-row justify-evenly gap-4">
+        <ul className="flex flex-row gap-4 justify-evenly">
           {navItems.map((item, id) => (
             <li key={id}>
               <Link href={item.href}>
@@ -35,6 +36,13 @@ const MobileNav = () => {
                       variant={item.active ? 'default' : 'outline'}
                     >
                       {item.icon}
+                      {item.count !== undefined && Number(item.count) > 0 && (
+                        <>
+                          <Badge className="absolute justify-center w-4 h-4 top-1 ">
+                            {String(item.count)}
+                          </Badge>
+                        </>
+                      )}
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>

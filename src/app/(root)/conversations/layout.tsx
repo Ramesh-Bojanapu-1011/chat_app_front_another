@@ -13,14 +13,14 @@ type Props = React.PropsWithChildren<{}>;
 const Conversationslayout = ({ children }: Props) => {
   const { user } = useUser();
 
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState<ChatMembers[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/conversations/${user?.id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setLoading(false);
         setConversations(data);
       });
@@ -40,17 +40,16 @@ const Conversationslayout = ({ children }: Props) => {
   return (
     <>
       <ItemList title={'Conversations'}>
-        <div className="flex w-full flex-col gap-2 ">
+        <div className="flex flex-col w-full gap-2 ">
           {loading ? (
             <>
               <div
                 role="status"
-                className="flex w-full justify-center items-center"
+                className="flex items-center justify-center w-full"
               >
                 <svg
                   aria-hidden="true"
-                  className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 
-                  fill-blue-800"
+                  className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-800"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,8 +81,8 @@ const Conversationslayout = ({ children }: Props) => {
                         href={`/conversations/` + member._id}
                         key={member._id}
                       >
-                        <div className="flex justify-between items-center p-2">
-                          <div className="flex gap-2 items-center">
+                        <div className="flex items-center justify-between p-2">
+                          <div className="flex items-center gap-2">
                             <Avatar>
                               <AvatarImage src={member.image_url} />
                               <AvatarFallback>
@@ -91,7 +90,7 @@ const Conversationslayout = ({ children }: Props) => {
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col ">
-                              <h2 className="text-lg text-nowrap font-semibold">
+                              <h2 className="text-lg font-semibold text-nowrap">
                                 {member.fullName}
                               </h2>
                               <span className="text-sm text-muted-foreground">

@@ -35,26 +35,26 @@ const Request = (props: Props) => {
               <User />
             </AvatarFallback>
           </Avatar>
-          <div className="max-w-[160px]">
+          <div className="">
             <h2 className="text-lg font-bold ">{props.fullname}</h2>
             <p className="">{props.email}</p>
           </div>
-          <div>
-            <Button
-              size={'icon'}
-              variant={'default'}
-              onClick={() => handleRequest('accept')}
-            >
-              <Check className="w-0 h-0" />
-            </Button>
-            <Button
-              size={'icon'}
-              variant={'destructive'}
-              onClick={() => handleRequest('reject')}
-            >
-              <X className="w-0 h-0" />
-            </Button>
-          </div>
+        </div>
+        <div className="flex">
+          <Button
+            size={'icon'}
+            variant={'default'}
+            onClick={() => handleRequest('accept')}
+          >
+            <Check className="w-0 h-0" />
+          </Button>
+          <Button
+            size={'icon'}
+            variant={'destructive'}
+            onClick={() => handleRequest('reject')}
+          >
+            <X className="w-0 h-0" />
+          </Button>
         </div>
       </Card>
     </>
