@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { FriendDetails } from '@/data/interfaces/intefaces';
+import { UserDetails } from '@/data/interfaces/intefaces';
 
 import { MoveLeft, User, PhoneCall, Video } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const Hedder = (props: Props) => {
-  const [friendDetails, setFriendDetails] = useState<FriendDetails>();
+  const [friendDetails, setFriendDetails] = useState<UserDetails>();
 
   useEffect(() => {
     fetch(`/api/messages/receiverdetails?receiverId=${props.receiverId}`)
@@ -36,7 +36,7 @@ const Hedder = (props: Props) => {
   };
   return (
     <div className="flex justify-between w-full border-b-2 border-red-50">
-      <div className="flex items-center  gap-2">
+      <div className="flex items-center gap-2">
         <Button
           size={'icon'}
           variant={'outline'}
@@ -52,8 +52,8 @@ const Hedder = (props: Props) => {
           </AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-lg font-bold  ">{friendDetails?.fullName}</h2>
-          <p className="text-gray-400 text-sm">
+          <h2 className="text-lg font-bold ">{friendDetails?.fullName}</h2>
+          <p className="text-sm text-gray-400">
             {friendDetails?.isOnline ? (
               <>
                 <span className="text-[#2de112]">Online</span>

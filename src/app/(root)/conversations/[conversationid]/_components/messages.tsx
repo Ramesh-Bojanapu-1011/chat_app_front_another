@@ -14,7 +14,7 @@ type Props = {
 const Messages = (props: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const socket = getSocket();
+  // const socket = getSocket();
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -24,22 +24,22 @@ const Messages = (props: Props) => {
     messages.forEach((msg) => {
       if (!msg.isRead && msg.receiverId._id === props.userId) {
         console.log('📤 Sending Mark Read Event:', msg._id);
-        socket.emit('markAsRead', {
-          messageId: msg._id,
-        });
+        // socket.emit('markAsRead', {
+        //   messageId: msg._id,
+        // });
       }
     });
   }, [messages]);
-  useEffect(() => {
-    socket.on('receiveMessage', (message) => {
-      console.log('Received Message:', message);
-      setMessages((prev) => [...prev, message[0]]);
-    });
+  // useEffect(() => {
+  //   socket.on('receiveMessage', (message) => {
+  //     console.log('Received Message:', message);
+  //     setMessages((prev) => [...prev, message[0]]);
+  //   });
 
-    return () => {
-      socket.off('receiveMessage');
-    };
-  }, [props.userId]);
+  //   return () => {
+  //     socket.off('receiveMessage');
+  //   };
+  // }, [props.userId]);
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(

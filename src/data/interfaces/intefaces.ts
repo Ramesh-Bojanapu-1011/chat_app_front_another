@@ -14,7 +14,7 @@ export interface Message {
   createdAt: string;
 }
 
-export interface FriendDetails {
+export interface UserDetails {
   _id: string;
   username: string;
   fullName: string;
@@ -23,6 +23,19 @@ export interface FriendDetails {
   email: string;
   friends: string[]; // Array of user IDs
   friendRequests: string[]; // Array of user IDs
+  isOnline: boolean;
+  lastSeen: string | null; // Can be a timestamp or null
+  __v: number;
+}
+export interface UserFriends {
+  _id: string;
+  username: string;
+  fullName: string;
+  image_url: string;
+  clerkId: string;
+  email: string;
+  friends: UserDetails[]; // Array of user IDs
+  friendRequests: UserDetails[]; // Array of user IDs
   isOnline: boolean;
   lastSeen: string | null; // Can be a timestamp or null
   __v: number;

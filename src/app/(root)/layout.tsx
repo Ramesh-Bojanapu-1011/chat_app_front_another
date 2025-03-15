@@ -10,7 +10,7 @@ type Props = React.PropsWithChildren<{}>;
 const layout = ({ children }: Props) => {
   const { user, isSignedIn, isLoaded } = useUser();
 
-  const socket = getSocket();
+  // const socket = getSocket();
 
   useEffect(() => {
     if (isSignedIn && user) {
@@ -29,24 +29,24 @@ const layout = ({ children }: Props) => {
     }
   }, [user, isSignedIn]);
 
-  useEffect(() => {
-    if (user) {
-      socket.on('connect', () => {
-        console.log('Socket Connected:', socket.id);
-      });
-      socket.emit('userOnline', user.id); // Register user as online
-      console.log('🔵 User Online:', user.id);
-    }
-  }, [user, socket]);
+  // useEffect(() => {
+  //   if (user) {
+  //     socket.on('connect', () => {
+  //       console.log('Socket Connected:', socket.id);
+  //     });
+  //     socket.emit('userOnline', user.id); // Register user as online
+  //     console.log('🔵 User Online:', user.id);
+  //   }
+  // }, [user, socket]);
   if (!isLoaded) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
+      <div className="flex items-center justify-center w-screen h-screen">
         <div className="loader"></div>
       </div>
     );
   }
   return (
-    <div className="h-svh w-screen flex flex-col lg:flex-row gap-4">
+    <div className="flex flex-col w-screen gap-4 h-svh lg:flex-row">
       <SidebarWraper>{children}</SidebarWraper>
     </div>
   );

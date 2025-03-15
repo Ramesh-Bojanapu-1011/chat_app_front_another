@@ -2,11 +2,12 @@
 import ItemList from '@/components/shared/team-list/ItemList';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
-import { ChatMembers } from '@/data/interfaces/intefaces';
+import { ChatMembers, UserFriends } from '@/data/interfaces/intefaces';
 import { useUser } from '@clerk/nextjs';
 import { User } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Addfriend from './_components/Addfriend';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -14,7 +15,22 @@ const Conversationslayout = ({ children }: Props) => {
   const { user } = useUser();
 
   const [conversations, setConversations] = useState<ChatMembers[]>([]);
+
   const [loading, setLoading] = useState(true);
+
+  const [userDetails, setUserDetails] = useState<UserFriends>({
+    _id: '',
+    username: '',
+    fullName: '',
+    image_url: '',
+    clerkId: '',
+    email: '',
+    friends: [], // Array of user IDs
+    friendRequests: [], // Array of user IDs
+    isOnline: false,
+    lastSeen: null, // Can be a timestamp or null
+    __v: 0,
+  });
 
   useEffect(() => {
     fetch(`/api/conversations/${user?.id}`)
@@ -37,9 +53,16 @@ const Conversationslayout = ({ children }: Props) => {
     return `${Math.floor(diff / (24 * 60))} days ago`;
   };
 
+  useEffect(() => {
+    fetch(`/api/user/details?userId=${user?.id}`)
+      .then((res) => res.json())
+      .then(setUserDetails);
+  }, [user]);
+
   return (
     <>
       <ItemList title={'Conversations'}>
+        <Addfriend user={userDetails} />
         <div className="flex flex-col w-full gap-2 ">
           {loading ? (
             <>
