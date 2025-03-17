@@ -9,11 +9,17 @@ import { useEffect, useState } from 'react';
 import AddFriendDiloge from './_components/AddFriendDiloge';
 import Request from './_components/Request';
 import Link from 'next/link';
-import { ReceiverDetails, RequestsObject } from '@/data/interfaces/intefaces';
+import {
+  RequestsObject,
+  ReceiverDetails,
+} from '@/data/details/interfaces/intefaces';
+import { default_RequestsObject_values } from '@/data/details/default_values/default_values';
 
 const Friendspage = () => {
   const { user } = useUser();
-  const [requests, setRequests] = useState<RequestsObject>();
+  const [requests, setRequests] = useState<RequestsObject>(
+    default_RequestsObject_values
+  );
   const [friends, setFriends] = useState<ReceiverDetails[]>([]);
   useEffect(() => {
     if (user) {
@@ -35,7 +41,10 @@ const Friendspage = () => {
 
   return (
     <>
-      <ItemList title={'Friends'} action={<AddFriendDiloge />}>
+      <ItemList
+        title={'Friends'}
+        action={<AddFriendDiloge currentUserId={user?.id as string} />}
+      >
         {requests ? (
           <>
             {requests.requests.length > 0 ? (
@@ -77,10 +86,10 @@ const Friendspage = () => {
                       </Avatar>
 
                       <div className="flex">
-                        <h2 className="text-lg  font-bold">{user.fullName}</h2>
+                        <h2 className="text-lg font-bold">{user.fullName}</h2>
                       </div>
                       <div className="flex">
-                        <p className="text-sm  text-gray-500">
+                        <p className="text-sm text-gray-500">
                           {user.isOnline == true ? <>yes</> : <>no</>}
                         </p>
                       </div>

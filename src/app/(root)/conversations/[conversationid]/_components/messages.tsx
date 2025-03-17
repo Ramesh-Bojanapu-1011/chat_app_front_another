@@ -1,9 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Message } from '@/data/interfaces/intefaces';
+import { Message } from '@/data/details/interfaces/intefaces';
+// import { Message } from '@/data/interfaces/intefaces';
 import { getSocket } from '@/data/utils/socket';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import { CheckCheck, User2Icon } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+import { Dialog } from '@/components/ui/dialog';
 
 type Props = {
   userId: string;
@@ -97,7 +100,7 @@ const Messages = (props: Props) => {
                 })}
               >
                 <div
-                  className={cn('px-4 rounded-2xl max-w-[50%]  ', {
+                  className={cn('px-4 rounded-2xl py-3 max-w-[50%]  ', {
                     'bg-blue-500 text-white':
                       message.senderId._id == props.userId,
                     'bg-gray-200 text-gray-800':
@@ -110,7 +113,7 @@ const Messages = (props: Props) => {
                 >
                   {message.fileUrl && (
                     <>
-                      <img src={message.fileUrl} alt="" />
+                      <Image src={message.fileUrl} alt={''} className='rounded-lg '  width={200} height={200}/>
                     </>
                   )}
                   <p className="break-words break-all whitespace-pre-wrap text-wrap">

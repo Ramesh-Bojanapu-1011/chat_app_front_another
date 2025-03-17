@@ -7,7 +7,8 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Message } from '@/data/interfaces/intefaces';
+import { Message } from '@/data/details/interfaces/intefaces';
+// import { Message } from '@/data/interfaces/intefaces';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Paperclip, SendHorizonalIcon } from 'lucide-react';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -46,35 +47,53 @@ const Chatinput = (props: Props) => {
 
   const onSubmit = async (data: FieldValues) => {
     const file = data.file;
-    console.log(file);
     const formData = new FormData();
-    formData.append('file', file);
+    console.log(file);
+    if (file) {
+      formData.append('file', file);
+      const response = await fetch(
+        `/api/upload?senderId=${props.userId}&receiverId=${props.friendId},`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+      const fileUrl = await response.json();
+      console.log(fileUrl);
 
-    const response = await fetch(
-      `/api/upload?senderId=${props.userId}&receiverId=${props.friendId},`,
-      {
+      const res = await fetch('/api/messages/save', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          senderId: props.userId,
+          receiverId: props.friendId,
+          message: data.message,
+          fileUrl: data.file ? fileUrl.fileUrl : undefined,
+        }),
+      });
+      const NewMessageDetails = await res.json();
+      props.setNewMessage(NewMessageDetails);
+    } else {
+      if (data.message.trim()) {
+        const res = await fetch('/api/messages/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            senderId: props.userId,
+            receiverId: props.friendId,
+            message: data.message,
+          }),
+        });
+        const NewMessageDetails = await res.json();
+        props.setNewMessage(NewMessageDetails);
       }
-    );
-    const fileUrl = await response.json();
-    console.log(fileUrl);
+    }
 
-    const res = await fetch('/api/messages/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        senderId: props.userId,
-        receiverId: props.friendId,
-        message: data.message,
-        fileUrl: data.file ? fileUrl.fileUrl : undefined,
-      }),
-    });
     form.reset();
-    const NewMessageDetails = await res.json();
-    props.setNewMessage(NewMessageDetails);
   };
 
   return (

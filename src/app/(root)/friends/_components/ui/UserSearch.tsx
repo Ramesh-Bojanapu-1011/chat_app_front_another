@@ -2,39 +2,45 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { UserFriends } from '@/data/details/interfaces/intefaces';
+import { UserDetails } from '@/data/details/interfaces/intefaces';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
-// Simulated API call to search friends
-const searchFriends = async (
+// Assume this is the currently logged-in user
+
+// Function to search users excluding the current user
+const searchUsers = async (
   query: string,
-  data: UserFriends
-): Promise<typeof data.friends> => {
+  data: UserDetails[],
+  currentUserId: string
+): Promise<UserDetails[]> => {
   await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate network delay
-  return data.friends.filter(
-    (friend) =>
-      friend.fullName.toLowerCase().includes(query.toLowerCase()) ||
-      friend.username.toLowerCase().includes(query.toLowerCase()) ||
-      friend.email.toLowerCase().includes(query.toLowerCase())
-  );
+  return data
+    .filter((user) => user.clerkId !== currentUserId) // Exclude logged-in user
+    .filter(
+      (user) =>
+        user.fullName.toLowerCase().includes(query.toLowerCase()) ||
+        user.email.toLowerCase().includes(query.toLowerCase())
+    );
 };
 
 interface AutoCompleteProps {
   value?: string;
   onChange?: (value: string) => void;
-  data: UserFriends;
+  data: UserDetails[];
+  currentUserId: string;
 }
 
-export default function FriendSearch({
+export default function UserSearch({
   value = '',
   onChange,
   data,
+  currentUserId,
 }: AutoCompleteProps) {
   const [query, setQuery] = useState(value);
   const [debouncedQuery] = useDebounce(query, 300);
-  const [suggestions, setSuggestions] = useState<typeof data.friends>([]);
+  const [suggestions, setSuggestions] = useState<typeof data>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -46,7 +52,7 @@ export default function FriendSearch({
         return;
       }
       setIsLoading(true);
-      const results = await searchFriends(q, data);
+      const results = await searchUsers(q, data, currentUserId);
       setSuggestions(results);
       setIsLoading(false);
     };
@@ -85,10 +91,9 @@ export default function FriendSearch({
     }
   };
 
-  const handleSuggestionClick = (friend: (typeof data.friends)[number]) => {
-    setQuery(friend.email);
-    onChange?.(friend.email);
-    console.log(friend);
+  const handleSuggestionClick = (user: (typeof data)[number]) => {
+    setQuery(user.email);
+    onChange?.(user.email);
     setSuggestions([]);
     setSelectedIndex(-1);
   };
@@ -106,20 +111,20 @@ export default function FriendSearch({
   };
 
   return (
-    <div className="w-full mx-auto">
-      <div className="relative w-full">
+    <div className="w-full max-w-xs mx-auto">
+      <div className="relative">
         <Input
           type="text"
-          placeholder="Search friends..."
+          placeholder="Search users..."
           value={query}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          className="w-full pr-10"
-          aria-label="Search friends"
+          className="pr-10"
+          aria-label="Search users"
           aria-autocomplete="list"
-          aria-controls="friends-list"
+          aria-controls="user-list"
           aria-expanded={suggestions.length > 0}
         />
         <Button
@@ -141,24 +146,24 @@ export default function FriendSearch({
       )}
       {suggestions.length > 0 && !isLoading && isFocused && (
         <ul
-          id="friends-list"
+          id="user-list"
           className="absolute z-10 mt-2 border rounded-md shadow-sm bg-background"
           role="listbox"
         >
-          {suggestions.map((friend, index) => (
+          {suggestions.map((user, index) => (
             <li
-              key={friend._id}
+              key={user._id}
               className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${index === selectedIndex ? 'bg-muted' : ''}`}
-              onClick={() => handleSuggestionClick(friend)}
+              onClick={() => handleSuggestionClick(user)}
               role="option"
               aria-selected={index === selectedIndex}
             >
               <img
-                src={friend.image_url}
-                alt={friend.fullName}
+                src={user.image_url}
+                alt={user.fullName}
                 className="w-8 h-8 mr-3 rounded-full"
               />
-              <span>{friend.fullName}</span>
+              <span>{user.fullName}</span>
             </li>
           ))}
         </ul>

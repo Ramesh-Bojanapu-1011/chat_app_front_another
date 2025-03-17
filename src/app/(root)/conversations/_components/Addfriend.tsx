@@ -2,23 +2,32 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { toast } from 'sonner';
-
+import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import {
-  Form,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+// import { UserDetails, UserFriends } from '@/data/interfaces/intefaces';
+import { MessageSquareMore } from 'lucide-react';
 import FriendSearch from './ui/SearchFriends';
-import { UserFriends } from '@/data/interfaces/intefaces';
+import { useRouter } from 'next/navigation';
+import { UserDetails, UserFriends } from '@/data/details/interfaces/intefaces';
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Please select a framework'),
+  name: z.string().min(1, 'Please enter a name'),
 });
 
 type AutocompleteFormData = z.infer<typeof FormSchema>;
@@ -27,44 +36,68 @@ type Props = {
   user: UserFriends;
 };
 
-const Addfriend = (props: Props) => {
+const AddChat = (props: Props) => {
+  const router = useRouter();
   const form = useForm<AutocompleteFormData>({
     resolver: zodResolver(FormSchema),
   });
 
-  const onSubmit = (data: AutocompleteFormData) => {
-    console.log('HEY', data);
-    toast(
-      <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-      </pre>
-    );
+  const onSubmit = async (data: AutocompleteFormData) => {
+    // console.log('HEY', data);
+    await fetch(`/api/user/details?email=${data.name}`)
+      .then((res) => res.json())
+      .then((res: UserDetails) => {
+        console.log(res);
+        router.push(`/conversations/` + res._id);
+      });
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <div>
-                <FormLabel>Enter name for chat to friend</FormLabel>
-              </div>
-              <FriendSearch
-                value={field.value}
-                onChange={field.onChange}
-                data={props.user}
+    <>
+      <Dialog>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button size={'icon'} variant={'outline'}>
+                <MessageSquareMore />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>New Chat</TooltipContent>
+        </Tooltip>
+        <DialogContent>
+          <DialogTitle>Make new chat with friend</DialogTitle>
+          <DialogDescription>
+            Enter username or email for chat to friend
+          </DialogDescription>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col ">
+                    <FriendSearch
+                      value={field.value}
+                      onChange={field.onChange}
+                      data={props.user}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+              <DialogFooter>
+              <DialogClose asChild>
+              <Button type="submit">Chat</Button>
+              </DialogClose>
+            </DialogFooter>
+              
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
-export default Addfriend;
+export default AddChat;

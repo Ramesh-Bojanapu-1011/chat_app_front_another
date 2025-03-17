@@ -1,15 +1,14 @@
 'use client';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -18,16 +17,21 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { UserPlus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import { useUser } from '@clerk/nextjs';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+// import { UserDetails } from '@/data/interfaces/intefaces';
+import { useUser } from '@clerk/nextjs';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { UserPlus } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import UserSearch from './ui/UserSearch';
+import { UserDetails } from '@/data/details/interfaces/intefaces';
 
 const AddFriendFormSchema = z.object({
   email: z
@@ -36,7 +40,8 @@ const AddFriendFormSchema = z.object({
     .email('Invalid email'),
 });
 
-const AddFriendDiloge = () => {
+const AddFriendDiloge = (props: { currentUserId: string }) => {
+  const [allUsers, setAllUsers] = useState<UserDetails[]>([]);
   const form = useForm({
     resolver: zodResolver(AddFriendFormSchema),
     defaultValues: {
@@ -44,6 +49,15 @@ const AddFriendDiloge = () => {
     },
   });
   const { user } = useUser();
+
+  useEffect(() => {
+    fetch(`/api/user/allusers`)
+      .then((res) => res.json())
+      .then((res: UserDetails[]) => {
+        console.log(res);
+        setAllUsers(res);
+      });
+  }, []);
 
   const handleSubmit = async (data: FieldValues) => {
     try {
@@ -98,11 +112,11 @@ const AddFriendDiloge = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input
-                          type="email"
-                          // name="email"
-                          placeholder="email....."
-                          {...field}
+                        <UserSearch
+                          value={field.value}
+                          onChange={field.onChange}
+                          data={allUsers}
+                          currentUserId={props.currentUserId}
                         />
                       </FormControl>
                       <FormMessage />
@@ -112,9 +126,11 @@ const AddFriendDiloge = () => {
               }}
             ></FormField>
             <DialogFooter>
-              <Button disabled={false} type="submit">
-                Send
-              </Button>
+              <DialogClose asChild>
+                <Button disabled={false} type="submit">
+                  Send
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
