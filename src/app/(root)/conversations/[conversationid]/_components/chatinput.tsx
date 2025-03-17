@@ -8,7 +8,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Message } from '@/data/details/interfaces/intefaces';
-// import { Message } from '@/data/interfaces/intefaces';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Paperclip, SendHorizonalIcon } from 'lucide-react';
 import { FieldValues, useForm } from 'react-hook-form';

@@ -22,7 +22,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-// import { UserDetails } from '@/data/interfaces/intefaces';
 import { useUser } from '@clerk/nextjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserPlus } from 'lucide-react';
@@ -96,8 +95,10 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
         <TooltipContent>Add Friend</TooltipContent>
       </Tooltip>
       <DialogContent>
-        <DialogTitle>hello</DialogTitle>
-        <DialogDescription>send Friend request</DialogDescription>
+        <DialogTitle>Send Friend Request</DialogTitle>
+        <DialogDescription>
+          Enter email to send friend request
+        </DialogDescription>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

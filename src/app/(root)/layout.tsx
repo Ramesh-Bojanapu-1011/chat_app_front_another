@@ -1,8 +1,6 @@
 'use client';
 import SidebarWraper from '@/components/shared/sidebar/SidebarWraper';
-import { getSocket } from '@/data/utils/socket';
 import { useUser } from '@clerk/nextjs';
-
 import React, { useEffect } from 'react';
 
 type Props = React.PropsWithChildren<{}>;

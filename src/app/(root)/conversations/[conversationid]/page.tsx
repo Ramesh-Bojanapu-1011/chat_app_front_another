@@ -7,7 +7,7 @@ import Hedder from './_components/Hedder';
 import Chatinput from './_components/chatinput';
 import Messages from './_components/messages';
 import { useState } from 'react';
-import { Message } from '@/data/interfaces/intefaces';
+import { Message } from '@/data/details/interfaces/intefaces';
 
 const ConversationPerId = () => {
   const { user } = useUser();
@@ -19,7 +19,7 @@ const ConversationPerId = () => {
     <>
       <ConversationContainer>
         {conversationId && (
-          <Card className="p-2  h-full  flex flex-col justify-between items-center">
+          <Card className="flex flex-col items-center justify-between h-full p-2">
             <Hedder receiverId={conversationId} />
 
             <Messages

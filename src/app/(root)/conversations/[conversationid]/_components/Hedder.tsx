@@ -6,10 +6,9 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { UserDetails } from '@/data/details/interfaces/intefaces';
-// import { UserDetails } from '@/data/interfaces/intefaces';
 
-import { MoveLeft, User, PhoneCall, Video } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { MoveLeft, PhoneCall, User, Video } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   receiverId: any;

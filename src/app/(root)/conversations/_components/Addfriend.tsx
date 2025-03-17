@@ -1,11 +1,6 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import {
   Dialog,
   DialogClose,
@@ -15,16 +10,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 // import { UserDetails, UserFriends } from '@/data/interfaces/intefaces';
-import { MessageSquareMore } from 'lucide-react';
-import FriendSearch from './ui/SearchFriends';
-import { useRouter } from 'next/navigation';
 import { UserDetails, UserFriends } from '@/data/details/interfaces/intefaces';
+import { MessageSquareMore } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import FriendSearch from './ui/SearchFriends';
 
 const FormSchema = z.object({
   name: z.string().min(1, 'Please enter a name'),
@@ -50,7 +49,7 @@ const AddChat = (props: Props) => {
         console.log(res);
         router.push(`/conversations/` + res._id);
       });
-      form.reset()
+    form.reset();
   };
 
   return (
@@ -88,11 +87,10 @@ const AddChat = (props: Props) => {
                 )}
               />
               <DialogFooter>
-              <DialogClose asChild>
-              <Button type="submit">Chat</Button>
-              </DialogClose>
-            </DialogFooter>
-              
+                <DialogClose asChild>
+                  <Button type="submit">Chat</Button>
+                </DialogClose>
+              </DialogFooter>
             </form>
           </Form>
         </DialogContent>

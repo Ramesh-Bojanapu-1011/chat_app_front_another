@@ -7,8 +7,6 @@ import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
-// Assume this is the currently logged-in user
-
 // Function to search users excluding the current user
 const searchUsers = async (
   query: string,
@@ -111,7 +109,7 @@ export default function UserSearch({
   };
 
   return (
-    <div className="w-full max-w-xs mx-auto">
+    <div className="w-full mx-auto">
       <div className="relative">
         <Input
           type="text"

@@ -1,12 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Message } from '@/data/details/interfaces/intefaces';
-// import { Message } from '@/data/interfaces/intefaces';
-import { getSocket } from '@/data/utils/socket';
 import { cn } from '@/lib/utils';
+import { User2Icon } from 'lucide-react';
 import Image from 'next/image';
-import { CheckCheck, User2Icon } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { Dialog } from '@/components/ui/dialog';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = {
   userId: string;
@@ -113,7 +110,13 @@ const Messages = (props: Props) => {
                 >
                   {message.fileUrl && (
                     <>
-                      <Image src={message.fileUrl} alt={''} className='rounded-lg '  width={200} height={200}/>
+                      <Image
+                        src={message.fileUrl}
+                        alt={''}
+                        className="rounded-lg "
+                        width={200}
+                        height={200}
+                      />
                     </>
                   )}
                   <p className="break-words break-all whitespace-pre-wrap text-wrap">

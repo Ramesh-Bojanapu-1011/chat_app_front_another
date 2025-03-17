@@ -3,17 +3,17 @@ import ConversationFallBack from '@/components/shared/conversation/ConversationF
 import ItemList from '@/components/shared/team-list/ItemList';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
+import { default_RequestsObject_values } from '@/data/details/default_values/default_values';
+import {
+  ReceiverDetails,
+  RequestsObject,
+} from '@/data/details/interfaces/intefaces';
 import { useUser } from '@clerk/nextjs';
 import { User } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import AddFriendDiloge from './_components/AddFriendDiloge';
 import Request from './_components/Request';
-import Link from 'next/link';
-import {
-  RequestsObject,
-  ReceiverDetails,
-} from '@/data/details/interfaces/intefaces';
-import { default_RequestsObject_values } from '@/data/details/default_values/default_values';
 
 const Friendspage = () => {
   const { user } = useUser();

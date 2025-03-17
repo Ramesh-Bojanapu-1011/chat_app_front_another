@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useUser } from '@clerk/nextjs';
 import { Check, User, X } from 'lucide-react';
-import React from 'react';
 
 type Props = {
   id: string;
