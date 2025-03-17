@@ -50,6 +50,7 @@ const AddChat = (props: Props) => {
         console.log(res);
         router.push(`/conversations/` + res._id);
       });
+      form.reset()
   };
 
   return (
