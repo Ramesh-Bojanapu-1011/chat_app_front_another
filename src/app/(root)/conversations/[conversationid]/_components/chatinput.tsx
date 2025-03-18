@@ -10,6 +10,7 @@ import {
 import { Message } from '@/data/details/interfaces/intefaces';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Paperclip, SendHorizonalIcon } from 'lucide-react';
+import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import TextareaAutosize from 'react-textarea-autosize';
 import { z } from 'zod';
@@ -23,19 +24,14 @@ type Props = {
 const ChatInputFormSchema = z
   .object({
     message: z.string().optional(),
-    file: z
-      .instanceof(File)
-      .optional()
-      .refine((file) => file && file.size > 0, { message: 'File is required' })
-      .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
-        message: 'File size must be under 5MB',
-      }),
+    file: z.instanceof(File).optional(),
   })
   .refine((data) => data.message || data.file, {
     message: 'You must send either a message or a file.',
   });
 
 const Chatinput = (props: Props) => {
+  const [loading, setLoading] = React.useState(false);
   const form = useForm({
     resolver: zodResolver(ChatInputFormSchema),
     defaultValues: {
@@ -45,6 +41,7 @@ const Chatinput = (props: Props) => {
   });
 
   const onSubmit = async (data: FieldValues) => {
+    setLoading(true);
     const file = data.file;
     const formData = new FormData();
     console.log(file);
@@ -93,6 +90,7 @@ const Chatinput = (props: Props) => {
     }
 
     form.reset();
+    setLoading(false);
   };
 
   return (
@@ -163,7 +161,7 @@ const Chatinput = (props: Props) => {
             }}
           />
 
-          <Button disabled={false} type="submit">
+          <Button disabled={loading} type="submit">
             <SendHorizonalIcon />
           </Button>
         </form>
