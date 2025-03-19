@@ -1,26 +1,26 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import React from 'react';
-import useNaveigation from '../../../../../hooks/useNaveigation';
+"use client";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import React from "react";
+import useNaveigation from "../../../../../hooks/useNaveigation";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import Link from 'next/link';
-import { ModeToggle } from '@/components/mode-toggle';
-import useCoversation from '../../../../../hooks/useCoversation';
-import { UserButton } from '@clerk/nextjs';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/tooltip";
+import Link from "next/link";
+import { ModeToggle } from "@/components/mode-toggle";
+import useCoversation from "../../../../../hooks/useCoversation";
+import { UserButton } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 const MobileNav = () => {
   const navItems = useNaveigation();
   const { isActive } = useCoversation();
   return (
     <div
-      className={cn('flex justify-center items-center', {
+      className={cn("flex justify-center items-center", {
         hidden: !isActive,
       })}
     >
@@ -33,7 +33,7 @@ const MobileNav = () => {
                   <TooltipTrigger asChild={true}>
                     <Button
                       size="icon"
-                      variant={item.active ? 'default' : 'outline'}
+                      variant={item.active ? "default" : "outline"}
                     >
                       {item.icon}
                       {item.count !== undefined && Number(item.count) > 0 && (

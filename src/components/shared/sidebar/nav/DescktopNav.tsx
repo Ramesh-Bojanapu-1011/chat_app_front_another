@@ -1,17 +1,17 @@
-'use client';
-import React from 'react';
-import useNaveigation from '../../../../../hooks/useNaveigation';
-import { Card } from '@/components/ui/card';
+"use client";
+import React from "react";
+import useNaveigation from "../../../../../hooks/useNaveigation";
+import { Card } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { ModeToggle } from '@/components/mode-toggle';
-import { UserButton } from '@clerk/nextjs';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ModeToggle } from "@/components/mode-toggle";
+import { UserButton } from "@clerk/nextjs";
+import { Badge } from "@/components/ui/badge";
 
 const DescktopNav = () => {
   const navItems = useNaveigation();
@@ -27,7 +27,7 @@ const DescktopNav = () => {
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
-                      variant={item.active ? 'default' : 'outline'}
+                      variant={item.active ? "default" : "outline"}
                     >
                       {item.icon}
                       {item.count !== undefined && Number(item.count) > 0 && (

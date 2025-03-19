@@ -1,19 +1,19 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Message } from '@/data/details/interfaces/intefaces';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Paperclip, SendHorizonalIcon } from 'lucide-react';
-import React from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
-import TextareaAutosize from 'react-textarea-autosize';
-import { z } from 'zod';
+} from "@/components/ui/form";
+import { Message } from "@/data/details/interfaces/intefaces";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Paperclip, SendHorizonalIcon } from "lucide-react";
+import React from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import TextareaAutosize from "react-textarea-autosize";
+import { z } from "zod";
 
 type Props = {
   userId: string;
@@ -27,7 +27,7 @@ const ChatInputFormSchema = z
     file: z.instanceof(File).optional(),
   })
   .refine((data) => data.message || data.file, {
-    message: 'You must send either a message or a file.',
+    message: "You must send either a message or a file.",
   });
 
 const Chatinput = (props: Props) => {
@@ -35,7 +35,7 @@ const Chatinput = (props: Props) => {
   const form = useForm({
     resolver: zodResolver(ChatInputFormSchema),
     defaultValues: {
-      message: '',
+      message: "",
       file: undefined,
     },
   });
@@ -46,21 +46,21 @@ const Chatinput = (props: Props) => {
     const formData = new FormData();
     console.log(file);
     if (file) {
-      formData.append('file', file);
+      formData.append("file", file);
       const response = await fetch(
         `/api/upload?senderId=${props.userId}&receiverId=${props.friendId},`,
         {
-          method: 'POST',
+          method: "POST",
           body: formData,
-        }
+        },
       );
       const fileUrl = await response.json();
       console.log(fileUrl);
 
-      const res = await fetch('/api/messages/save', {
-        method: 'POST',
+      const res = await fetch("/api/messages/save", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           senderId: props.userId,
@@ -73,10 +73,10 @@ const Chatinput = (props: Props) => {
       props.setNewMessage(NewMessageDetails);
     } else {
       if (data.message.trim()) {
-        const res = await fetch('/api/messages/save', {
-          method: 'POST',
+        const res = await fetch("/api/messages/save", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             senderId: props.userId,
@@ -111,7 +111,7 @@ const Chatinput = (props: Props) => {
                       rows={1}
                       maxRows={3}
                       onKeyDown={async (e: any) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
+                        if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
                           await onSubmit(form.getValues());
                         }
@@ -148,7 +148,7 @@ const Chatinput = (props: Props) => {
                         type="button"
                         className="p-2"
                         onClick={() =>
-                          document.getElementById('fileInput')?.click()
+                          document.getElementById("fileInput")?.click()
                         }
                       >
                         <Paperclip size={20} />

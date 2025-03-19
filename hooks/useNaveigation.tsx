@@ -1,7 +1,7 @@
-import { useUser } from '@clerk/nextjs';
-import { ContactRound, MessageCircle } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useUser } from "@clerk/nextjs";
+import { ContactRound, MessageCircle } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
 const useNaveigation = () => {
   const pathname = usePathname();
@@ -10,9 +10,9 @@ const useNaveigation = () => {
   const [requestcount, setRequestCount] = useState<Number>();
   useEffect(() => {
     if (user) {
-      fetch('/api/friends/friendrequestcount', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      fetch("/api/friends/friendrequestcount", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id }),
       })
         .then((res) => res.json())
@@ -25,20 +25,20 @@ const useNaveigation = () => {
   const paths = useMemo(
     () => [
       {
-        name: 'Conversations',
-        href: '/conversations',
+        name: "Conversations",
+        href: "/conversations",
         icon: <MessageCircle />,
-        active: pathname?.startsWith('/conversations'),
+        active: pathname?.startsWith("/conversations"),
       },
       {
-        name: 'Friends',
-        href: '/friends',
+        name: "Friends",
+        href: "/friends",
         icon: <ContactRound />,
         count: requestcount,
-        active: pathname?.startsWith('/friends'),
+        active: pathname?.startsWith("/friends"),
       },
     ],
-    [pathname, requestcount]
+    [pathname, requestcount],
   );
 
   return paths;

@@ -93,7 +93,7 @@ body {
 }
 .loader::before,
 .loader::after {
-  content: '';
+  content: "";
   grid-area: 1/1;
   width: 75%;
   height: calc(50% - 4px);

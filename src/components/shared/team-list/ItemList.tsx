@@ -1,8 +1,8 @@
-'use client';
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import React from 'react';
-import useCoversation from '../../../../hooks/useCoversation';
+"use client";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import React from "react";
+import useCoversation from "../../../../hooks/useCoversation";
 
 type Props = React.PropsWithChildren<{
   title: string;
@@ -13,9 +13,9 @@ const ItemList = ({ children, title, action }: Props) => {
   const { isActive } = useCoversation();
   return (
     <Card
-      className={cn('hidden flex-col   w-full lg:flex-none lg:w-80 p-2', {
+      className={cn("hidden flex-col   w-full lg:flex-none lg:w-80 p-2", {
         flex: isActive,
-        'lg:flex': !isActive,
+        "lg:flex": !isActive,
       })}
     >
       <div className="mb-4 flex  flex-row justify-between">

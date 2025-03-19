@@ -1,14 +1,14 @@
-'use client';
-import ItemList from '@/components/shared/team-list/ItemList';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card } from '@/components/ui/card';
-import { useUser } from '@clerk/nextjs';
-import { User } from 'lucide-react';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import Addfriend from './_components/Addfriend';
-import { ChatMembers, UserFriends } from '@/data/details/interfaces/intefaces';
-import { default_UserFriends_values } from '@/data/details/default_values/default_values';
+"use client";
+import ItemList from "@/components/shared/team-list/ItemList";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
+import { useUser } from "@clerk/nextjs";
+import { User } from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import Addfriend from "./_components/Addfriend";
+import { ChatMembers, UserFriends } from "@/data/details/interfaces/intefaces";
+import { default_UserFriends_values } from "@/data/details/default_values/default_values";
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -20,7 +20,7 @@ const Conversationslayout = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
 
   const [userDetails, setUserDetails] = useState<UserFriends>(
-    default_UserFriends_values
+    default_UserFriends_values,
   );
 
   useEffect(() => {
@@ -34,11 +34,11 @@ const Conversationslayout = ({ children }: Props) => {
   }, [user]);
 
   const formatLastSeen = (date: any) => {
-    if (!date) return 'Unknown';
+    if (!date) return "Unknown";
     const diff = Math.floor(
-      (new Date().getTime() - new Date(date).getTime()) / 60000
+      (new Date().getTime() - new Date(date).getTime()) / 60000,
     ); // in minutes
-    if (diff < 1) return 'Just now';
+    if (diff < 1) return "Just now";
     if (diff < 60) return `${diff} minutes ago`;
     if (diff < 24 * 60) return `${Math.floor(diff / 60)} hours ago`;
     return `${Math.floor(diff / (24 * 60))} days ago`;
@@ -53,7 +53,7 @@ const Conversationslayout = ({ children }: Props) => {
   return (
     <>
       <ItemList
-        title={'Conversations'}
+        title={"Conversations"}
         action={<Addfriend user={userDetails} />}
       >
         <div className="flex flex-col w-full gap-2 ">
@@ -90,7 +90,7 @@ const Conversationslayout = ({ children }: Props) => {
                 <Card key={conv._id} className="w-full">
                   {conv.members
                     .filter(
-                      (member) => member._id != user?.publicMetadata.clerkId
+                      (member) => member._id != user?.publicMetadata.clerkId,
                     ) // Exclude the logged-in user
                     .map((member) => (
                       <Link
@@ -117,7 +117,7 @@ const Conversationslayout = ({ children }: Props) => {
                           <div>
                             {member.isOnline ? (
                               <>
-                                {' '}
+                                {" "}
                                 <p className="text-[#53d12d]  h-full w-full text-[15px] text-center">
                                   Online
                                 </p>
@@ -128,7 +128,7 @@ const Conversationslayout = ({ children }: Props) => {
                               </span>
                             )}
                           </div>
-                        </div>{' '}
+                        </div>{" "}
                       </Link>
                     ))}
                 </Card>

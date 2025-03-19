@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Message } from '@/data/details/interfaces/intefaces';
-import { cn } from '@/lib/utils';
-import { User2Icon } from 'lucide-react';
-import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Message } from "@/data/details/interfaces/intefaces";
+import { cn } from "@/lib/utils";
+import { User2Icon } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   userId: string;
@@ -17,13 +17,13 @@ const Messages = (props: Props) => {
   // const socket = getSocket();
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, props.newMessage]);
 
   useEffect(() => {
     messages.forEach((msg) => {
       if (!msg.isRead && msg.receiverId._id === props.userId) {
-        console.log('📤 Sending Mark Read Event:', msg._id);
+        console.log("📤 Sending Mark Read Event:", msg._id);
         // socket.emit('markAsRead', {
         //   messageId: msg._id,
         // });
@@ -43,7 +43,7 @@ const Messages = (props: Props) => {
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(
-        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`
+        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`,
       );
       const data = await res.json();
 
@@ -71,8 +71,8 @@ const Messages = (props: Props) => {
 
   const formatTime = (timestamp: any) => {
     return new Date(timestamp).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
   return (
@@ -85,26 +85,26 @@ const Messages = (props: Props) => {
           return (
             <div
               key={index}
-              className={cn('flex items-end  ', {
-                'justify-end': message.senderId._id == props.userId,
-                'justify-start': message.senderId._id != props.userId,
+              className={cn("flex items-end  ", {
+                "justify-end": message.senderId._id == props.userId,
+                "justify-start": message.senderId._id != props.userId,
               })}
             >
               <div
-                className={cn('flex flex-col w-full mx-2', {
-                  'order-1 items-end': message.senderId._id == props.userId,
-                  'order-2 items-start': message.senderId._id != props.userId,
+                className={cn("flex flex-col w-full mx-2", {
+                  "order-1 items-end": message.senderId._id == props.userId,
+                  "order-2 items-start": message.senderId._id != props.userId,
                 })}
               >
                 <div
-                  className={cn('px-4 rounded-2xl py-3 max-w-[50%]  ', {
-                    'bg-blue-500 text-white':
+                  className={cn("px-4 rounded-2xl py-3 max-w-[50%]  ", {
+                    "bg-blue-500 text-white":
                       message.senderId._id == props.userId,
-                    'bg-gray-200 text-gray-800':
+                    "bg-gray-200 text-gray-800":
                       message.senderId._id != props.userId,
-                    'rounded-br-none':
+                    "rounded-br-none":
                       message.senderId._id == props.userId && lastbyuser,
-                    'rounded-bl-none':
+                    "rounded-bl-none":
                       message.senderId._id != props.userId && lastbyuser,
                   })}
                 >
@@ -112,7 +112,7 @@ const Messages = (props: Props) => {
                     <>
                       <Image
                         src={message.fileUrl}
-                        alt={''}
+                        alt={""}
                         className="rounded-lg "
                         width={200}
                         height={200}
@@ -132,9 +132,9 @@ const Messages = (props: Props) => {
                 </div>
               </div>
               <Avatar
-                className={cn(' relative w-8 h-8', {
-                  'order-1': message.senderId._id == props.userId,
-                  ' invisible': lastbyuser,
+                className={cn(" relative w-8 h-8", {
+                  "order-1": message.senderId._id == props.userId,
+                  " invisible": lastbyuser,
                 })}
               >
                 <AvatarImage src={message.senderId.image_url} />

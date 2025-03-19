@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { UserDetails } from '@/data/details/interfaces/intefaces';
-import { Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { UserDetails } from "@/data/details/interfaces/intefaces";
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 // Function to search users excluding the current user
 const searchUsers = async (
   query: string,
   data: UserDetails[],
-  currentUserId: string
+  currentUserId: string,
 ): Promise<UserDetails[]> => {
   await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate network delay
   return data
@@ -19,7 +19,7 @@ const searchUsers = async (
     .filter(
       (user) =>
         user.fullName.toLowerCase().includes(query.toLowerCase()) ||
-        user.email.toLowerCase().includes(query.toLowerCase())
+        user.email.toLowerCase().includes(query.toLowerCase()),
     );
 };
 
@@ -31,7 +31,7 @@ interface AutoCompleteProps {
 }
 
 export default function UserSearch({
-  value = '',
+  value = "",
   onChange,
   data,
   currentUserId,
@@ -45,7 +45,7 @@ export default function UserSearch({
 
   useEffect(() => {
     const fetchSuggestionsCallback = async (q: string) => {
-      if (q.trim() === '') {
+      if (q.trim() === "") {
         setSuggestions([]);
         return;
       }
@@ -69,21 +69,21 @@ export default function UserSearch({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowDown') {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
       setSelectedIndex((prev) =>
-        prev < suggestions.length - 1 ? prev + 1 : prev
+        prev < suggestions.length - 1 ? prev + 1 : prev,
       );
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
-    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+    } else if (e.key === "Enter" && selectedIndex >= 0) {
       const selected = suggestions[selectedIndex];
       setQuery(selected.email);
       onChange?.(selected.email);
       setSuggestions([]);
       setSelectedIndex(-1);
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       setSuggestions([]);
       setSelectedIndex(-1);
     }
@@ -151,7 +151,7 @@ export default function UserSearch({
           {suggestions.map((user, index) => (
             <li
               key={user._id}
-              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${index === selectedIndex ? 'bg-muted' : ''}`}
+              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${index === selectedIndex ? "bg-muted" : ""}`}
               onClick={() => handleSuggestionClick(user)}
               role="option"
               aria-selected={index === selectedIndex}

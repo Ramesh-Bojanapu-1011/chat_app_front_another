@@ -1,5 +1,5 @@
-'use client';
-import { Button } from '@/components/ui/button';
+"use client";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -16,28 +16,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useUser } from '@clerk/nextjs';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UserPlus } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
-import UserSearch from './ui/UserSearch';
-import { UserDetails } from '@/data/details/interfaces/intefaces';
-import { getSocket } from '@/data/utils/socket';
+} from "@/components/ui/tooltip";
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserPlus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import UserSearch from "./ui/UserSearch";
+import { UserDetails } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 
 const AddFriendFormSchema = z.object({
   email: z
     .string()
     .min(1, { message: `This field is con't be empty` })
-    .email('Invalid email'),
+    .email("Invalid email"),
 });
 
 const AddFriendDiloge = (props: { currentUserId: string }) => {
@@ -46,7 +46,7 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
   const form = useForm({
     resolver: zodResolver(AddFriendFormSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
   const { user } = useUser();
@@ -62,9 +62,9 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
 
   const handleSubmit = async (data: FieldValues) => {
     try {
-      const res = await fetch('/api/friends/sendRequest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/friends/sendRequest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           friendEmail: data.email,
           userId: user?.publicMetadata.clerkId,
@@ -73,8 +73,8 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
       const details = await res.json();
 
       if (res.ok) {
-        toast.success('Friend request sent successfully');
-        socket.emit('sendFriendRequest', details);
+        toast.success("Friend request sent successfully");
+        socket.emit("sendFriendRequest", details);
       } else {
         toast.error(details.error);
       }
@@ -90,7 +90,7 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button size={'icon'} variant={'outline'}>
+            <Button size={"icon"} variant={"outline"}>
               <UserPlus />
             </Button>
           </DialogTrigger>
@@ -109,7 +109,7 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
           >
             <FormField
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => {
                 return (
                   <>

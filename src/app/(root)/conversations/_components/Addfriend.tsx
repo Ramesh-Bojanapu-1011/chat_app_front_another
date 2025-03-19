@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -9,24 +9,24 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
+} from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+} from "@/components/ui/tooltip";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 // import { UserDetails, UserFriends } from '@/data/interfaces/intefaces';
-import { UserDetails, UserFriends } from '@/data/details/interfaces/intefaces';
-import { MessageSquareMore } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import FriendSearch from './ui/SearchFriends';
+import { UserDetails, UserFriends } from "@/data/details/interfaces/intefaces";
+import { MessageSquareMore } from "lucide-react";
+import { useRouter } from "next/navigation";
+import FriendSearch from "./ui/SearchFriends";
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Please enter a name'),
+  name: z.string().min(1, "Please enter a name"),
 });
 
 type AutocompleteFormData = z.infer<typeof FormSchema>;
@@ -58,7 +58,7 @@ const AddChat = (props: Props) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button size={'icon'} variant={'outline'}>
+              <Button size={"icon"} variant={"outline"}>
                 <MessageSquareMore />
               </Button>
             </DialogTrigger>

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -23,10 +23,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   isOnline: { type: Boolean, default: false },
   lastSeen: { type: Date, default: null },
 });
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+export default mongoose.models.User || mongoose.model("User", UserSchema);

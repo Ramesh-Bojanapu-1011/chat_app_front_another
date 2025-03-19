@@ -1,13 +1,13 @@
-import { connectDB } from '@/data/database/mangodb';
-import User from '@/data/models/User';
-import { clerkClient } from '@clerk/nextjs/server';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { connectDB } from "@/data/database/mangodb";
+import User from "@/data/models/User";
+import { clerkClient } from "@clerk/nextjs/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== "POST") return res.status(405).end();
 
   try {
     await connectDB();
@@ -48,6 +48,6 @@ export default async function handler(
     res.status(200).json({ user });
   } catch (error) {
     // console.log('Error saving user:', error);
-    res.status(500).json({ error: 'Error saving user' });
+    res.status(500).json({ error: "Error saving user" });
   }
 }

@@ -1,14 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { UserDetails } from '@/data/details/interfaces/intefaces';
+} from "@/components/ui/tooltip";
+import { UserDetails } from "@/data/details/interfaces/intefaces";
 
-import { MoveLeft, PhoneCall, User, Video } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { MoveLeft, PhoneCall, User, Video } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type Props = {
   receiverId: any;
@@ -25,11 +25,11 @@ const Hedder = (props: Props) => {
       });
   }, [props.receiverId]);
   const formatLastSeen = (date: any) => {
-    if (!date) return 'Unknown';
+    if (!date) return "Unknown";
     const diff = Math.floor(
-      (new Date().getTime() - new Date(date).getTime()) / 60000
+      (new Date().getTime() - new Date(date).getTime()) / 60000,
     ); // in minutes
-    if (diff < 1) return 'Just now';
+    if (diff < 1) return "Just now";
     if (diff < 60) return `${diff} minutes ago`;
     if (diff < 24 * 60) return `${Math.floor(diff / 60)} hours ago`;
     return `${Math.floor(diff / (24 * 60))} days ago`;
@@ -38,8 +38,8 @@ const Hedder = (props: Props) => {
     <div className="flex justify-between w-full border-b-2 border-red-50">
       <div className="flex items-center gap-2">
         <Button
-          size={'icon'}
-          variant={'outline'}
+          size={"icon"}
+          variant={"outline"}
           className="lg:hidden"
           onClick={() => window.history.back()}
         >
@@ -68,7 +68,7 @@ const Hedder = (props: Props) => {
       <div className="flex items-center gap-4">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size={'icon'} variant={'outline'}>
+            <Button size={"icon"} variant={"outline"}>
               <PhoneCall />
             </Button>
           </TooltipTrigger>
@@ -77,7 +77,7 @@ const Hedder = (props: Props) => {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size={'icon'} variant={'outline'}>
+            <Button size={"icon"} variant={"outline"}>
               <Video />
             </Button>
           </TooltipTrigger>

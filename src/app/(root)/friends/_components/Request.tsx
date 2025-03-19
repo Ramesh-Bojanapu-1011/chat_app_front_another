@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { getSocket } from '@/data/utils/socket';
-import { useUser } from '@clerk/nextjs';
-import { Check, User, X } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { getSocket } from "@/data/utils/socket";
+import { useUser } from "@clerk/nextjs";
+import { Check, User, X } from "lucide-react";
 
 type Props = {
   id: string;
@@ -18,18 +18,18 @@ const Request = (props: Props) => {
   const { user } = useUser();
   const userId = user?.publicMetadata.clerkId;
 
-  const handleRequest = async (action: 'accept' | 'reject') => {
+  const handleRequest = async (action: "accept" | "reject") => {
     const response = async () =>
-      await fetch('/api/friends/handleRequest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/api/friends/handleRequest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: userId, friendId: props.id, action }),
       })
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          if (action === 'accept') {
-            socket.emit('acceptRequest', data);
+          if (action === "accept") {
+            socket.emit("acceptRequest", data);
           }
         });
 
@@ -53,16 +53,16 @@ const Request = (props: Props) => {
         </div>
         <div className="flex">
           <Button
-            size={'icon'}
-            variant={'default'}
-            onClick={() => handleRequest('accept')}
+            size={"icon"}
+            variant={"default"}
+            onClick={() => handleRequest("accept")}
           >
             <Check className="w-0 h-0" />
           </Button>
           <Button
-            size={'icon'}
-            variant={'destructive'}
-            onClick={() => handleRequest('reject')}
+            size={"icon"}
+            variant={"destructive"}
+            onClick={() => handleRequest("reject")}
           >
             <X className="w-0 h-0" />
           </Button>

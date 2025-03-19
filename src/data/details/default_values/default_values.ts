@@ -1,10 +1,10 @@
 export const default_UserFriends_values = {
-  _id: '',
-  username: '',
-  fullName: '',
-  image_url: '',
-  clerkId: '',
-  email: '',
+  _id: "",
+  username: "",
+  fullName: "",
+  image_url: "",
+  clerkId: "",
+  email: "",
   friends: [], // Array of user IDs
   friendRequests: [], // Array of user IDs
   isOnline: false,

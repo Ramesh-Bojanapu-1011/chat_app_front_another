@@ -1,6 +1,6 @@
-import React from 'react';
-import DescktopNav from './nav/DescktopNav';
-import MobileNav from './nav/MobileNav';
+import React from "react";
+import DescktopNav from "./nav/DescktopNav";
+import MobileNav from "./nav/MobileNav";
 
 type Props = React.PropsWithChildren<{}>;
 

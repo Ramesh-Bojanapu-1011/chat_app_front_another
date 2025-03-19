@@ -1,26 +1,26 @@
-'use client';
-import ConversationFallBack from '@/components/shared/conversation/ConversationFallBack';
-import ItemList from '@/components/shared/team-list/ItemList';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card } from '@/components/ui/card';
-import { default_RequestsObject_values } from '@/data/details/default_values/default_values';
+"use client";
+import ConversationFallBack from "@/components/shared/conversation/ConversationFallBack";
+import ItemList from "@/components/shared/team-list/ItemList";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
+import { default_RequestsObject_values } from "@/data/details/default_values/default_values";
 import {
   ReceiverDetails,
   RequestsObject,
-} from '@/data/details/interfaces/intefaces';
-import { useUser } from '@clerk/nextjs';
-import { User } from 'lucide-react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import AddFriendDiloge from './_components/AddFriendDiloge';
-import Request from './_components/Request';
-import { getSocket } from '@/data/utils/socket';
+} from "@/data/details/interfaces/intefaces";
+import { useUser } from "@clerk/nextjs";
+import { User } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import AddFriendDiloge from "./_components/AddFriendDiloge";
+import Request from "./_components/Request";
+import { getSocket } from "@/data/utils/socket";
 
 const Friendspage = () => {
   const socket = getSocket();
   const { user } = useUser();
   const [requests, setRequests] = useState<RequestsObject>(
-    default_RequestsObject_values
+    default_RequestsObject_values,
   );
   const [friends, setFriends] = useState<ReceiverDetails[]>([]);
   useEffect(() => {
@@ -28,7 +28,7 @@ const Friendspage = () => {
       if (user) {
         const requests = () =>
           fetch(`/api/friends/getRequests?userId=${user.id}`, {
-            method: 'GET',
+            method: "GET",
           })
             .then((res) => res.json())
             .then((data) => {
@@ -37,15 +37,15 @@ const Friendspage = () => {
         requests();
       }
     };
-    socket.on('requestUpdate', () => {
-      console.log('Request Updated');
+    socket.on("requestUpdate", () => {
+      console.log("Request Updated");
       fetchRequests();
     });
 
     fetchRequests();
 
     return () => {
-      socket.off('requestUpdate');
+      socket.off("requestUpdate");
     };
   }, [user]);
 
@@ -55,21 +55,21 @@ const Friendspage = () => {
         .then((res) => res.json())
         .then(setFriends);
     };
-    socket.on('requestUpdate', () => {
-      console.log('Request Updated');
+    socket.on("requestUpdate", () => {
+      console.log("Request Updated");
       fetchFriends();
     });
 
     fetchFriends();
     return () => {
-      socket.off('requestUpdate');
+      socket.off("requestUpdate");
     };
   }, [user]);
 
   return (
     <>
       <ItemList
-        title={'Friends'}
+        title={"Friends"}
         action={<AddFriendDiloge currentUserId={user?.id as string} />}
       >
         {requests ? (
@@ -103,7 +103,7 @@ const Friendspage = () => {
             {friends.map((user, index) => {
               return (
                 <Card key={index} className="flex w-full p-2 ">
-                  <Link href={'/conversations/' + user._id}>
+                  <Link href={"/conversations/" + user._id}>
                     <div className="flex items-center justify-between ">
                       <Avatar>
                         <AvatarImage src={user.image_url} />
