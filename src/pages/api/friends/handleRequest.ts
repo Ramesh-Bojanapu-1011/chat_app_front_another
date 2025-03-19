@@ -40,8 +40,8 @@ export default async function handler(
 
     return res.status(200).json({
       message: `Friend request ${action}!`,
-      user: user._id,
-      friend: friend._id,
+      user: user.clerkId,
+      friend: friend.clerkId,
     });
   } catch (error: any) {
     return res

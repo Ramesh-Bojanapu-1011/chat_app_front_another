@@ -31,6 +31,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import UserSearch from './ui/UserSearch';
 import { UserDetails } from '@/data/details/interfaces/intefaces';
+import { getSocket } from '@/data/utils/socket';
 
 const AddFriendFormSchema = z.object({
   email: z
@@ -40,6 +41,7 @@ const AddFriendFormSchema = z.object({
 });
 
 const AddFriendDiloge = (props: { currentUserId: string }) => {
+  const socket = getSocket();
   const [allUsers, setAllUsers] = useState<UserDetails[]>([]);
   const form = useForm({
     resolver: zodResolver(AddFriendFormSchema),
@@ -72,6 +74,7 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
 
       if (res.ok) {
         toast.success('Friend request sent successfully');
+        socket.emit('sendFriendRequest', details);
       } else {
         toast.error(details.error);
       }

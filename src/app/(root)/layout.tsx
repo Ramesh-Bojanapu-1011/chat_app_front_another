@@ -1,5 +1,6 @@
 'use client';
 import SidebarWraper from '@/components/shared/sidebar/SidebarWraper';
+import { getSocket } from '@/data/utils/socket';
 import { useUser } from '@clerk/nextjs';
 import React, { useEffect } from 'react';
 
@@ -8,7 +9,7 @@ type Props = React.PropsWithChildren<{}>;
 const layout = ({ children }: Props) => {
   const { user, isSignedIn, isLoaded } = useUser();
 
-  // const socket = getSocket();
+  const socket = getSocket();
 
   useEffect(() => {
     if (isSignedIn && user) {
@@ -27,15 +28,15 @@ const layout = ({ children }: Props) => {
     }
   }, [user, isSignedIn]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     socket.on('connect', () => {
-  //       console.log('Socket Connected:', socket.id);
-  //     });
-  //     socket.emit('userOnline', user.id); // Register user as online
-  //     console.log('🔵 User Online:', user.id);
-  //   }
-  // }, [user, socket]);
+  useEffect(() => {
+    if (user) {
+      socket.on('connect', () => {
+        console.log('Socket Connected:', socket.id);
+      });
+      socket.emit('userOnline', user.id); // Register user as online
+      console.log('🔵 User Online:', user.id);
+    }
+  }, [user, socket]);
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center w-screen h-screen">

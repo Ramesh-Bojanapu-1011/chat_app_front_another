@@ -14,29 +14,56 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import AddFriendDiloge from './_components/AddFriendDiloge';
 import Request from './_components/Request';
+import { getSocket } from '@/data/utils/socket';
 
 const Friendspage = () => {
+  const socket = getSocket();
   const { user } = useUser();
   const [requests, setRequests] = useState<RequestsObject>(
     default_RequestsObject_values
   );
   const [friends, setFriends] = useState<ReceiverDetails[]>([]);
   useEffect(() => {
-    if (user) {
-      fetch(`/api/friends/getRequests?userId=${user.id}`, {
-        method: 'GET',
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setRequests(data);
-        });
-    }
-  }, []);
+    const fetchRequests = () => {
+      if (user) {
+        const requests = () =>
+          fetch(`/api/friends/getRequests?userId=${user.id}`, {
+            method: 'GET',
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              setRequests(data);
+            });
+        requests();
+      }
+    };
+    socket.on('requestUpdate', () => {
+      console.log('Request Updated');
+      fetchRequests();
+    });
+
+    fetchRequests();
+
+    return () => {
+      socket.off('requestUpdate');
+    };
+  }, [user]);
 
   useEffect(() => {
-    fetch(`/api/friends/${user?.id}`)
-      .then((res) => res.json())
-      .then(setFriends);
+    const fetchFriends = () => {
+      fetch(`/api/friends/${user?.id}`)
+        .then((res) => res.json())
+        .then(setFriends);
+    };
+    socket.on('requestUpdate', () => {
+      console.log('Request Updated');
+      fetchFriends();
+    });
+
+    fetchFriends();
+    return () => {
+      socket.off('requestUpdate');
+    };
   }, [user]);
 
   return (
