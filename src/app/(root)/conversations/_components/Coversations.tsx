@@ -9,10 +9,12 @@ import Link from "next/link";
 import React from "react";
 import Addfriend from "./Addfriend";
 import ItemList from "@/components/shared/team-list/ItemList";
+import { getSocket } from "@/data/utils/socket";
 
 type Props = {};
 
 const Coversations = (props: Props) => {
+  const socket = getSocket();
   const { user } = useUser();
 
   const [conversations, setConversations] = React.useState<ChatMembers[]>([]);
@@ -24,14 +26,22 @@ const Coversations = (props: Props) => {
   );
 
   React.useEffect(() => {
-    fetch(`/api/conversations/${user?.id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data);
-        setLoading(false);
-        setConversations(data);
-      });
-  }, [user]);
+    const conversation = () =>
+      fetch(`/api/conversations/${user?.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setLoading(false);
+          setConversations(data);
+        });
+
+    socket.on("userStatusUpdate", () => {
+      conversation();
+    });
+    conversation();
+    return () => {
+      socket.off("userStatusUpdate");
+    };
+  }, [user?.id]);
 
   const formatLastSeen = (date: any) => {
     if (!date) return "Unknown";

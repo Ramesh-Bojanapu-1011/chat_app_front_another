@@ -6,6 +6,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { UserDetails } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 
 import { MoveLeft, PhoneCall, User, Video } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -15,14 +16,24 @@ type Props = {
 };
 
 const Hedder = (props: Props) => {
+  const socket = getSocket();
   const [friendDetails, setFriendDetails] = useState<UserDetails>();
 
   useEffect(() => {
-    fetch(`/api/messages/receiverdetails?receiverId=${props.receiverId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setFriendDetails(data);
-      });
+    const FriendDetails = () =>
+      fetch(`/api/messages/receiverdetails?receiverId=${props.receiverId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setFriendDetails(data);
+        });
+    socket.on("userStatusUpdate", () => {
+      FriendDetails();
+    });
+    FriendDetails();
+    return () => {
+      socket.off("userStatusUpdate");
+    };
   }, [props.receiverId]);
   const formatLastSeen = (date: any) => {
     if (!date) return "Unknown";
