@@ -1,12 +1,12 @@
 import React from "react";
-import Coversations from "./_components/Coversations";
+
 import { Metadata } from "next";
 
 type Props = React.PropsWithChildren<{}>;
 
 export const metadata: Metadata = {
-  title: "Conversations",
-  description: "Conversations",
+  title: "Friends",
+  description: "Friends",
   icons: {
     icon: "/chat-app-logo-icon.svg",
     apple: "/chat-app-logo-icon.svg",
@@ -16,13 +16,8 @@ export const metadata: Metadata = {
   authors: [{ name: "Ramesh" }],
 };
 
-const Conversationslayout = ({ children }: Props) => {
-  return (
-    <>
-      <Coversations />
-      {children}
-    </>
-  );
+const Frirndslayout = ({ children }: Props) => {
+  return <>{children}</>;
 };
 
-export default Conversationslayout;
+export default Frirndslayout;
