@@ -8,38 +8,34 @@ import Chatinput from "./_components/chatinput";
 import Messages from "./_components/messages";
 import { useState } from "react";
 import { Message } from "@/data/details/interfaces/intefaces";
+import React from "react";
 
 const ConversationPerId = () => {
   const { user } = useUser();
   const { conversationId } = useCoversation();
 
-  const [newMessage, setNewMessage] = useState<Message>();
+  const [newMessage, setNewMessage] = React.useState<any>([]);
 
   return (
     <>
       <ConversationContainer>
-        {conversationId && (
+        {conversationId && user && (
           <Card className="flex flex-col items-center justify-between h-full p-2">
             <Hedder receiverId={conversationId} />
 
-            <Messages
-              userId={user?.publicMetadata.clerkId as string}
-              conversationId={
-                Array.isArray(conversationId)
-                  ? conversationId[0]
-                  : conversationId
-              }
-              newMessage={newMessage}
-            />
-
             <Chatinput
-              userId={user?.publicMetadata.clerkId as string}
+              userId={user.publicMetadata.clerkId as string}
               friendId={
                 Array.isArray(conversationId)
                   ? conversationId[0]
                   : conversationId
               }
-              setNewMessage={setNewMessage}
+              conversationId={
+                Array.isArray(conversationId)
+                  ? conversationId[0]
+                  : conversationId
+              }
+              // setMessages={setNewMessage}
             />
           </Card>
         )}

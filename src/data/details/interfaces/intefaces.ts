@@ -4,6 +4,7 @@ export interface Message {
   receiverId: {
     _id: string;
     username: string;
+    clerkId: string;
     email: string;
     image_url: string;
   };

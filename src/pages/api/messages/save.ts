@@ -51,8 +51,8 @@ export default async function handler(
         { senderId: receiverObjectId, receiverId: senderObjectId },
       ],
     })
-      .populate("senderId", "username email") // Populate sender details
-      .populate("receiverId", "username email") // Populate receiver details
+      .populate("senderId", "username image_url clerkId email") // Populate sender details
+      .populate("receiverId", "username image_url clerkId email") // Populate receiver details
       .sort({ createdAt: -1 }) // Sort by creation date in descending order
       .limit(1);
 

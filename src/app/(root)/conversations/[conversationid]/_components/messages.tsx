@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Message } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 import { cn } from "@/lib/utils";
 import { User2Icon } from "lucide-react";
 import Image from "next/image";
@@ -8,21 +9,29 @@ import { useEffect, useRef, useState } from "react";
 type Props = {
   userId: string;
   conversationId: string;
-  newMessage: Message | undefined;
+  newMessage: Message[] | any;
 };
 
 const Messages = (props: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  // const socket = getSocket();
+  const socket = getSocket();
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, props.newMessage]);
 
   useEffect(() => {
+    if (props.newMessage.data !== undefined) {
+      console.log("📤 Sending Message:", props.newMessage);
+      setMessages((prev) => [...prev, props.newMessage.data[0]]);
+    }
+  }, [props.newMessage]);
+
+  useEffect(() => {
+    console.log(messages);
     messages.forEach((msg) => {
-      if (!msg.isRead && msg.receiverId._id === props.userId) {
+      if (!msg.isRead && msg.receiverId.clerkId === props.userId) {
         console.log("📤 Sending Mark Read Event:", msg._id);
         // socket.emit('markAsRead', {
         //   messageId: msg._id,
@@ -30,16 +39,16 @@ const Messages = (props: Props) => {
       }
     });
   }, [messages]);
-  // useEffect(() => {
-  //   socket.on('receiveMessage', (message) => {
-  //     console.log('Received Message:', message);
-  //     setMessages((prev) => [...prev, message[0]]);
-  //   });
+  useEffect(() => {
+    socket.on("receiveMessage", (message) => {
+      console.log("Received Message:", message);
+      setMessages((prev) => [...prev, message]);
+    });
 
-  //   return () => {
-  //     socket.off('receiveMessage');
-  //   };
-  // }, [props.userId]);
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, [props.userId]);
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(
