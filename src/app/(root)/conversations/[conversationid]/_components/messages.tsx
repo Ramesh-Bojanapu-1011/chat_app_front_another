@@ -53,7 +53,7 @@ const Messages = (props: Props) => {
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(
-        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`
+        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`,
       );
       const data = await res.json();
 
@@ -69,8 +69,8 @@ const Messages = (props: Props) => {
       // console.log('✅ Message Read Event Received:', messageId);
       setMessages((prev) =>
         prev.map((msg) =>
-          msg._id === messageId ? { ...msg, isRead: true, isReadAt } : msg
-        )
+          msg._id === messageId ? { ...msg, isRead: true, isReadAt } : msg,
+        ),
       );
     });
 

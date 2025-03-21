@@ -52,7 +52,7 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
   const { user } = useUser();
 
   useEffect(() => {
-    fetch(`/api/user/allusers`)
+    fetch(`/api/user/allusers?userId=${user?.id}`)
       .then((res) => res.json())
       .then((res: UserDetails[]) => {
         // console.log(res);

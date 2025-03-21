@@ -10,8 +10,21 @@ export default async function handler(
 
   await connectDB();
 
-  const user = await User.find();
-  if (!user) return res.status(404).json({ error: "User not found." });
+  const { userId } = req.query;
+  if (!userId) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
 
-  res.status(200).json(user);
+  const user = await User.find({ clerkId: userId });
+  if (!user) {
+    return res.status(404).json({ error: "User not found." });
+  }
+  // Get all users without friends and friend requests of login user
+  const users = await User.find({
+    _id: { $ne: user[0]._id },
+    friends: { $ne: user[0]._id },
+    friendRequests: { $ne: user[0]._id },
+  });
+
+  res.status(200).json(users);
 }
