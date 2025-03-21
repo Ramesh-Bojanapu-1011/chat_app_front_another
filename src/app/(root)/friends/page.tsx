@@ -38,7 +38,7 @@ const Friendspage = () => {
       }
     };
     socket.on("requestUpdate", () => {
-      console.log("Request Updated");
+      // console.log("Request Updated");
       fetchRequests();
     });
 
@@ -56,7 +56,7 @@ const Friendspage = () => {
         .then(setFriends);
     };
     socket.on("requestUpdate", () => {
-      console.log("Request Updated");
+      // console.log("Request Updated");
       fetchFriends();
     });
 
@@ -90,9 +90,7 @@ const Friendspage = () => {
                   );
                 })}
               </>
-            ) : (
-              <></>
-            )}
+            ) : null}
           </>
         ) : (
           <></>
@@ -103,7 +101,7 @@ const Friendspage = () => {
             {friends.map((user, index) => {
               return (
                 <Card key={index} className="flex w-full p-2 ">
-                  <Link href={"/conversations/" + user._id}>
+                  <Link href={"/conversations/" + user._id} className="w-full">
                     <div className="flex items-center justify-between ">
                       <Avatar>
                         <AvatarImage src={user.image_url} />

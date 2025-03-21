@@ -55,7 +55,7 @@ const AddFriendDiloge = (props: { currentUserId: string }) => {
     fetch(`/api/user/allusers`)
       .then((res) => res.json())
       .then((res: UserDetails[]) => {
-        console.log(res);
+        // console.log(res);
         setAllUsers(res);
       });
   }, []);

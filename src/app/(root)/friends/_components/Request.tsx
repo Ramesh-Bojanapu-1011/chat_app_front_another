@@ -27,7 +27,7 @@ const Request = (props: Props) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           if (action === "accept") {
             socket.emit("acceptRequest", data);
           }

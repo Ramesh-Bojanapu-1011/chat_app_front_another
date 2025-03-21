@@ -46,7 +46,7 @@ const AddChat = (props: Props) => {
     await fetch(`/api/user/details?email=${data.name}`)
       .then((res) => res.json())
       .then((res: UserDetails) => {
-        console.log(res);
+        // console.log(res);
         router.push(`/conversations/` + res._id);
       });
     form.reset();

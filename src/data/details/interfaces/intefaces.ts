@@ -1,6 +1,12 @@
 export interface Message {
   _id: string;
-  senderId: { _id: string; username: string; email: string; image_url: string };
+  senderId: {
+    _id: string;
+    username: string;
+    email: string;
+    image_url: string;
+    clerkId: string;
+  };
   receiverId: {
     _id: string;
     username: string;

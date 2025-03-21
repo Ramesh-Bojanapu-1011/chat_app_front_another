@@ -24,7 +24,7 @@ const Hedder = (props: Props) => {
       fetch(`/api/messages/receiverdetails?receiverId=${props.receiverId}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setFriendDetails(data);
         });
     socket.on("userStatusUpdate", () => {

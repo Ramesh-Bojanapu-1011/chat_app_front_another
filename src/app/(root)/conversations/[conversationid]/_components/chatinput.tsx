@@ -49,7 +49,7 @@ const Chatinput = (props: Props) => {
     setLoading(true);
     const file = data.file;
     const formData = new FormData();
-    console.log(file);
+    // console.log(file);
     if (file) {
       formData.append("file", file);
       const response = await fetch(
@@ -60,7 +60,7 @@ const Chatinput = (props: Props) => {
         },
       );
       const fileUrl = await response.json();
-      console.log(fileUrl);
+      // console.log(fileUrl);
 
       const res = await fetch("/api/messages/save", {
         method: "POST",

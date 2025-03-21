@@ -88,7 +88,7 @@ export default function FriendSearch({
   const handleSuggestionClick = (friend: (typeof data.friends)[number]) => {
     setQuery(friend.email);
     onChange?.(friend.email);
-    console.log(friend);
+    // console.log(friend);
     setSuggestions([]);
     setSelectedIndex(-1);
   };

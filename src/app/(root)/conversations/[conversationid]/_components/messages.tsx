@@ -29,19 +29,20 @@ const Messages = (props: Props) => {
   }, [props.newMessage]);
 
   useEffect(() => {
-    console.log(messages);
+    // console.log(messages);
     messages.forEach((msg) => {
-      if (!msg.isRead && msg.receiverId.clerkId === props.userId) {
-        console.log("📤 Sending Mark Read Event:", msg._id);
-        // socket.emit('markAsRead', {
-        //   messageId: msg._id,
-        // });
+      // console.log(props.userId);
+      if (!msg.isRead && msg.receiverId._id === props.userId) {
+        // console.log("📤 Sending Mark Read Event:", msg._id);
+        socket.emit("markAsRead", {
+          messageId: msg._id,
+        });
       }
     });
   }, [messages]);
   useEffect(() => {
     socket.on("receiveMessage", (message) => {
-      console.log("Received Message:", message);
+      // console.log("Received Message:", message);
       setMessages((prev) => [...prev, message]);
     });
 
@@ -52,7 +53,7 @@ const Messages = (props: Props) => {
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(
-        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`,
+        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`
       );
       const data = await res.json();
 
@@ -62,21 +63,21 @@ const Messages = (props: Props) => {
     fetchMessages();
   }, [props.conversationId]);
 
-  // useEffect(() => {
-  //   // Listen for read receipts
-  //   socket.on('messageRead', ({ messageId, isReadAt }) => {
-  //     // console.log('✅ Message Read Event Received:', messageId);
-  //     setMessages((prev) =>
-  //       prev.map((msg) =>
-  //         msg._id === messageId ? { ...msg, isRead: true, isReadAt } : msg
-  //       )
-  //     );
-  //   });
+  useEffect(() => {
+    // Listen for read receipts
+    socket.on("messageRead", ({ messageId, isReadAt }) => {
+      // console.log('✅ Message Read Event Received:', messageId);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg._id === messageId ? { ...msg, isRead: true, isReadAt } : msg
+        )
+      );
+    });
 
-  //   return () => {
-  //     socket.off('messageRead');
-  //   };
-  // }, []);
+    return () => {
+      socket.off("messageRead");
+    };
+  }, []);
 
   const formatTime = (timestamp: any) => {
     return new Date(timestamp).toLocaleTimeString([], {
@@ -131,12 +132,36 @@ const Messages = (props: Props) => {
                   <p className="break-words break-all whitespace-pre-wrap text-wrap">
                     {message.message}
                   </p>
-                  <div className="flex ">
-                    {message.isRead ? <></> : <></>}
-
-                    <p className="flex justify-end w-full">
+                  <div className="flex gap-2 ">
+                    <p
+                      className={`flex justify-end w-full text-sm
+                        ${
+                          message.receiverId._id == props.userId
+                            ? "text-muted-foreground"
+                            : " "
+                        } `}
+                    >
                       {formatTime(message.createdAt)}
                     </p>
+                    {message.senderId._id == props.userId && (
+                      <>
+                        {message.isRead ? (
+                          <Image
+                            src="/seen.svg"
+                            alt={""}
+                            width={15}
+                            height={15}
+                          />
+                        ) : (
+                          <Image
+                            src="/sent.svg"
+                            alt={""}
+                            width={15}
+                            height={15}
+                          />
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
