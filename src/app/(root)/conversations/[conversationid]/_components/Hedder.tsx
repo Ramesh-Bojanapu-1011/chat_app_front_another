@@ -1,5 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -7,8 +14,9 @@ import {
 } from "@/components/ui/tooltip";
 import { UserDetails } from "@/data/details/interfaces/intefaces";
 import { getSocket } from "@/data/utils/socket";
+import Image from "next/image";
 
-import { MoveLeft, PhoneCall, User, Video } from "lucide-react";
+import { InfoIcon, MoveLeft, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -46,7 +54,7 @@ const Hedder = (props: Props) => {
     return `${Math.floor(diff / (24 * 60))} days ago`;
   };
   return (
-    <div className="flex justify-between w-full border-b-2 border-red-50">
+    <div className="flex justify-between w-[95%] border-b-2 border-red-50">
       <div className="flex items-center gap-2">
         <Button
           size={"icon"}
@@ -77,23 +85,68 @@ const Hedder = (props: Props) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size={"icon"} variant={"outline"}>
-              <PhoneCall />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Call</TooltipContent>
-        </Tooltip>
+        <Dialog>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DialogTrigger asChild>
+                <Button size={"icon"} variant={"outline"}>
+                  <InfoIcon />
+                </Button>
+              </DialogTrigger>
+            </TooltipTrigger>
 
-        <Tooltip>
+            <TooltipContent>Info</TooltipContent>
+          </Tooltip>
+          <DialogContent>
+            <DialogTitle>Profile</DialogTitle>
+            <Card>
+              {friendDetails && (
+                <>
+                  <CardHeader>
+                    <CardTitle>Profile Details</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Image
+                      src={friendDetails.image_url}
+                      alt={""}
+                      className="flex items-center justify-center rounded-full"
+                      width={150}
+                      height={150}
+                    />
+                    <div className="flex flex-col justify-center w-full">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Full name:</td>
+                            <td>{friendDetails.fullName}</td>
+                          </tr>
+                          <tr>
+                            <td>Username:</td>
+                            <td>{friendDetails.username}</td>
+                          </tr>
+
+                          <tr>
+                            <td>Email:</td>
+                            <td>{friendDetails.email}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </>
+              )}
+            </Card>
+          </DialogContent>
+        </Dialog>
+
+        {/* <Tooltip>
           <TooltipTrigger asChild>
             <Button size={"icon"} variant={"outline"}>
               <Video />
             </Button>
           </TooltipTrigger>
           <TooltipContent>Video Call</TooltipContent>
-        </Tooltip>
+        </Tooltip> */}
       </div>
     </div>
   );
