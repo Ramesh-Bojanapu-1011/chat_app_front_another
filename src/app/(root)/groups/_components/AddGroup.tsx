@@ -101,9 +101,7 @@ const AddGroup = (props: Props) => {
         </Tooltip>
         <DialogContent>
           <DialogTitle>Make new Gropu with friends</DialogTitle>
-          <DialogDescription>
-            Fill the fields to create group
-          </DialogDescription>
+          <DialogDescription>Fill the fields to create group</DialogDescription>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField

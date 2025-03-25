@@ -41,11 +41,9 @@ const AddChat = (props: Props) => {
   });
 
   const onSubmit = async (data: AutocompleteFormData) => {
-     
     await fetch(`/api/user/details?email=${data.email}`)
       .then((res) => res.json())
       .then((res: UserDetails) => {
-         
         router.push(`/conversations/` + res._id);
       });
     form.reset();

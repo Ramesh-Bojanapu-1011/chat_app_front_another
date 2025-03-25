@@ -53,7 +53,7 @@ const Chatinput = (props: Props) => {
     if (file) {
       formData.append("file", file);
       const response = await fetch(
-        `/api/upload?senderId=${props.userId}&receiverId=${props.friendId},`,
+        `/api/messages/uploadfile?senderId=${props.userId}&receiverId=${props.friendId},`,
         {
           method: "POST",
           body: formData,
@@ -71,7 +71,7 @@ const Chatinput = (props: Props) => {
           senderId: props.userId,
           receiverId: props.friendId,
           message: data.message,
-          fileUrl: data.file ? fileUrl.fileUrl : undefined,
+          fileUrl: fileUrl.fileUrl,
         }),
       });
       const NewMessageDetails = await res.json();
