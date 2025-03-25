@@ -148,7 +148,9 @@ export default function FriendSearch({
           {suggestions.map((friend, index) => (
             <li
               key={friend._id}
-              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${index === selectedIndex ? "bg-muted" : ""}`}
+              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${
+                index === selectedIndex ? "bg-muted" : ""
+              }`}
               onClick={() => handleSuggestionClick(friend)}
               role="option"
               aria-selected={index === selectedIndex}
@@ -158,7 +160,10 @@ export default function FriendSearch({
                 alt={friend.fullName}
                 className="w-8 h-8 mr-3 rounded-full"
               />
-              <span>{friend.fullName}</span>
+              <div className="flex flex-col justify-center">
+                <span>{friend.fullName}</span>
+                <span className="text-muted-foreground">{friend.email}</span>
+              </div>
             </li>
           ))}
         </ul>

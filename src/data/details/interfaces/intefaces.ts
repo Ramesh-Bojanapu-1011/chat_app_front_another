@@ -28,6 +28,7 @@ export interface UserDetails {
   image_url: string;
   clerkId: string;
   email: string;
+  grp_names: string[];
   friends: string[]; // Array of user IDs
   friendRequests: string[]; // Array of user IDs
   isOnline: boolean;
@@ -97,4 +98,20 @@ export interface ChatMembers {
   };
   createdAt: string;
   __v: number;
+}
+
+export interface GroupDetails {
+  _id: string;
+  grp_name: string;
+  grp_created: string;
+  users_in_grp: UserDetails[];
+  grp_img_url: string;
+}
+
+export interface Groups {
+  _id: string;
+  grp_name: string;
+  grp_created: string;
+  users_in_grp: string[];
+  grp_img_url: string;
 }

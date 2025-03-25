@@ -151,7 +151,9 @@ export default function UserSearch({
           {suggestions.map((user, index) => (
             <li
               key={user._id}
-              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${index === selectedIndex ? "bg-muted" : ""}`}
+              className={`flex items-center px-4 py-2 cursor-pointer hover:bg-muted ${
+                index === selectedIndex ? "bg-muted" : ""
+              }`}
               onClick={() => handleSuggestionClick(user)}
               role="option"
               aria-selected={index === selectedIndex}
@@ -161,7 +163,10 @@ export default function UserSearch({
                 alt={user.fullName}
                 className="w-8 h-8 mr-3 rounded-full"
               />
-              <span>{user.fullName}</span>
+              <div className="flex flex-col justify-center">
+                <span>{user.fullName}</span>
+                <span className="text-muted-foreground">{user.email}</span>
+              </div>
             </li>
           ))}
         </ul>

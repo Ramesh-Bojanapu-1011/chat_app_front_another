@@ -19,14 +19,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import { UserDetails, UserFriends } from '@/data/interfaces/intefaces';
 import { UserDetails, UserFriends } from "@/data/details/interfaces/intefaces";
 import { MessageSquareMore } from "lucide-react";
 import { useRouter } from "next/navigation";
 import FriendSearch from "./ui/SearchFriends";
 
 const FormSchema = z.object({
-  name: z.string().min(1, "Please enter a name"),
+  email: z.string().min(1, "Please enter a name"),
 });
 
 type AutocompleteFormData = z.infer<typeof FormSchema>;
@@ -42,11 +41,11 @@ const AddChat = (props: Props) => {
   });
 
   const onSubmit = async (data: AutocompleteFormData) => {
-    // console.log('HEY', data);
-    await fetch(`/api/user/details?email=${data.name}`)
+     
+    await fetch(`/api/user/details?email=${data.email}`)
       .then((res) => res.json())
       .then((res: UserDetails) => {
-        // console.log(res);
+         
         router.push(`/conversations/` + res._id);
       });
     form.reset();
@@ -74,7 +73,7 @@ const AddChat = (props: Props) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name="name"
+                name="email"
                 render={({ field }) => (
                   <FormItem className="flex flex-col ">
                     <FriendSearch

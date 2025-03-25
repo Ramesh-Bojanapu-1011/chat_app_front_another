@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  grp_names: [{ type: mongoose.Schema.Types.ObjectId, ref: "Group" }],
   friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   isOnline: { type: Boolean, default: false },

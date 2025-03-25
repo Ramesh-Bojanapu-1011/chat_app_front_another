@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import Addfriend from "./Addfriend";
+import Addfriend from "./AddChat";
 import ItemList from "@/components/shared/team-list/ItemList";
 import { getSocket } from "@/data/utils/socket";
 
@@ -98,9 +98,7 @@ const Coversations = (props: Props) => {
               {conversations.map((conv: ChatMembers) => (
                 <Card key={conv._id} className="w-full">
                   {conv.members
-                    .filter(
-                      (member) => member._id != user?.publicMetadata.clerkId,
-                    ) // Exclude the logged-in user
+                    .filter((member) => member.clerkId != user?.id) // Exclude the logged-in user
                     .map((member) => (
                       <Link
                         href={`/conversations/` + member._id}
