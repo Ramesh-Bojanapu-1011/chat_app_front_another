@@ -53,7 +53,9 @@ const Chatinput = (props: Props) => {
     if (file) {
       formData.append("file", file);
       const response = await fetch(
-        `/api/messages/uploadfile?senderId=${props.userId}&receiverId=${props.friendId},`,
+        `/api/uploadfile?senderId=${props.userId}&receiverId=${
+          props.friendId
+        }&type=${"chat-files"}`,
         {
           method: "POST",
           body: formData,

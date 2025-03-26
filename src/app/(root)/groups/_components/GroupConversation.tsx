@@ -21,6 +21,17 @@ const GroupConversation = (props: Props) => {
       .then(setUserDetails);
   }, [user]);
 
+  React.useEffect(() => {
+    const fetchGroups = async () => {
+      const res = await fetch(`/api/groups/get?userid=${user?.id}`);
+      const data = await res.json();
+
+      console.log(data);
+    };
+
+    fetchGroups();
+  }, [user]);
+
   return (
     <ItemList
       title={"Groups"}

@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import TextareaAutosize from "react-textarea-autosize";
 import {
   Form,
   FormControl,
@@ -28,24 +27,17 @@ import { UserFriends } from "@/data/details/interfaces/intefaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageSquareMore, Paperclip } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-  Controller,
-  ControllerFieldState,
-  ControllerRenderProps,
-  FieldValues,
-  useForm,
-  UseFormStateReturn,
-} from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { z } from "zod";
-
-import React from "react";
 import { Input } from "@/components/ui/input";
+import React from "react";
 
 const FormSchema = z.object({
   friends: z
     .array(
       z.object({
+        id: z.string(),
         value: z.string(),
         label: z.string(),
         image: z.string(),
@@ -65,6 +57,7 @@ type Props = {
 const AddGroup = (props: Props) => {
   const friendOptions = props.user.friends.map((friend) => {
     return {
+      id: friend._id,
       value: friend.email,
       label: friend.fullName,
       image: friend.image_url,
@@ -79,6 +72,53 @@ const AddGroup = (props: Props) => {
 
   const onSubmit = async (data: AutocompleteFormData) => {
     console.log(data);
+    const file = data.file;
+    const friends = data.friends.map((friend) => friend.id);
+    friends.push(props.user._id);
+    const groupName = data.name;
+    const formData = new FormData();
+    if (file) {
+      formData.append("file", file);
+      const response = await fetch(
+        `/api/uploadfile?senderId=${
+          props.user._id
+        }&receiverId=${"Group-Details"}&type=${"Grp-profile"}`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      const fileUrl = await response.json();
+
+      const res = await fetch("/api/groups/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          createrId: props.user._id,
+          groupName,
+          friends,
+          fileUrl: fileUrl.fileUrl,
+        }),
+      });
+
+      const NewMessageDetails = await res.json();
+      console.log(NewMessageDetails);
+    } else {
+      const res = await fetch("/api/groups/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          groupName,
+          friends,
+          fileUrl: undefined,
+        }),
+      });
+      // const NewMessageDetails = await res.json();
+    }
     form.reset({
       friends: [],
       name: "",

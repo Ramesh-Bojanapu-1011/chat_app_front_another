@@ -116,9 +116,13 @@ const Coversations = (props: Props) => {
                               <h2 className="text-lg font-semibold text-nowrap">
                                 {member.fullName}
                               </h2>
-                              <span className="text-sm text-muted-foreground">
-                                {conv.lastMessage.message}
-                              </span>
+                              {conv.lastMessage && (
+                                <>
+                                  <span className="text-sm text-muted-foreground">
+                                    {conv.lastMessage.message}
+                                  </span>
+                                </>
+                              )}
                             </div>
                           </div>
                           <div>

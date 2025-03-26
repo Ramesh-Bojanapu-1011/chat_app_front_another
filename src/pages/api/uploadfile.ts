@@ -20,7 +20,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       const file = (req as any).file;
-      const { senderId, receiverId } = req.query; // Extract sender & receiver from request
+      const { senderId, receiverId, type } = req.query; // Extract sender & receiver from request
 
       if (!file) {
         res.status(400).json({ error: "No file uploaded" });
@@ -35,7 +35,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       try {
         // Upload file to Cloudinary under 'receiver/sender' folder
         const result = await cloudinary.v2.uploader.upload(file.path, {
-          folder: `chat-app/chat-files/${senderId}/${receiverId}`,
+          folder: `chat-app/${type}/${senderId}/${receiverId}`,
           // format:'auto',
           resource_type: "auto", // Automatically detect file type (image, video, raw file)
         });
