@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Message } from "@/data/details/interfaces/intefaces";
+import { GroupMessages, Message } from "@/data/details/interfaces/intefaces";
 import { getSocket } from "@/data/utils/socket";
 import { cn } from "@/lib/utils";
 import { User2Icon } from "lucide-react";
@@ -9,22 +9,22 @@ import { useEffect, useRef, useState } from "react";
 type Props = {
   userId: string;
   conversationId: string;
-  newMessage: Message[] | any;
+  newMessage: GroupMessages;
 };
 
 const Messages = (props: Props) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  console.log(props.newMessage);
+  const [messages, setMessages] = useState<GroupMessages[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const socket = getSocket();
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, props.newMessage]);
 
   useEffect(() => {
-    if (props.newMessage.data !== undefined) {
+    if (props.newMessage._id !== "") {
       console.log("📤 Sending Message:", props.newMessage);
-      setMessages((prev) => [...prev, props.newMessage.data[0]]);
+      setMessages((prev) => [...prev, props.newMessage]);
     }
   }, [props.newMessage]);
 
@@ -32,28 +32,28 @@ const Messages = (props: Props) => {
     // console.log(messages);
     messages.forEach((msg) => {
       // console.log(props.userId);
-      if (!msg.isRead && msg.receiverId._id === props.userId) {
+      if (!msg.isRead && msg.senderId._id != props.userId) {
         // console.log("📤 Sending Mark Read Event:", msg._id);
-        socket.emit("markAsRead", {
-          messageId: msg._id,
-        });
+        // socket.emit("markAsRead", {
+        //   messageId: msg._id,
+        // });
       }
     });
   }, [messages]);
-  useEffect(() => {
-    socket.on("receiveMessage", (message) => {
-      // console.log("Received Message:", message);
-      setMessages((prev) => [...prev, message]);
-    });
+  // useEffect(() => {
+  // socket.on("receiveMessage", (message) => {
+  //   // console.log("Received Message:", message);
+  //   setMessages((prev) => [...prev, message]);
+  // });
 
-    return () => {
-      socket.off("receiveMessage");
-    };
-  }, [props.userId]);
+  // return () => {
+  //   socket.off("receiveMessage");
+  // };
+  // }, [props.userId]);
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(
-        `/api/messages/get?senderId=${props.userId}&receiverId=${props.conversationId}`,
+        `/api/groups/getgroupmessages?&GroupId=${props.conversationId}`,
       );
       const data = await res.json();
 
@@ -63,21 +63,6 @@ const Messages = (props: Props) => {
     fetchMessages();
   }, [props.conversationId]);
 
-  useEffect(() => {
-    // Listen for read receipts
-    socket.on("messageRead", ({ messageId, isReadAt }) => {
-      // console.log('✅ Message Read Event Received:', messageId);
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg._id === messageId ? { ...msg, isRead: true, isReadAt } : msg,
-        ),
-      );
-    });
-
-    return () => {
-      socket.off("messageRead");
-    };
-  }, []);
 
   const formatTime = (timestamp: any) => {
     return new Date(timestamp).toLocaleTimeString([], {
@@ -136,7 +121,7 @@ const Messages = (props: Props) => {
                     <p
                       className={`flex justify-end w-full text-sm
                         ${
-                          message.receiverId._id == props.userId
+                          message.senderId._id != props.userId
                             ? "text-muted-foreground"
                             : " "
                         } `}

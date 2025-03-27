@@ -12,47 +12,31 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { UserDetails } from "@/data/details/interfaces/intefaces";
-import { getSocket } from "@/data/utils/socket";
+import { Groups } from "@/data/details/interfaces/intefaces";
 import Image from "next/image";
 
 import { InfoIcon, MoveLeft, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Props = {
-  receiverId: any;
+  Groupid: string;
 };
 
 const Hedder = (props: Props) => {
-  const socket = getSocket();
-  const [friendDetails, setFriendDetails] = useState<UserDetails>();
+  // const socket = getSocket();
+  const [groupDetails, setGroupDetails] = useState<Groups>();
 
   useEffect(() => {
-    const FriendDetails = () =>
-      fetch(`/api/messages/receiverdetails?receiverId=${props.receiverId}`)
+    const GroupDetails = () =>
+      fetch(`/api/groups/details?groupid=${props.Groupid}`)
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data);
-          setFriendDetails(data);
+          setGroupDetails(data);
         });
-    socket.on("userStatusUpdate", () => {
-      FriendDetails();
-    });
-    FriendDetails();
-    return () => {
-      socket.off("userStatusUpdate");
-    };
-  }, [props.receiverId]);
-  const formatLastSeen = (date: any) => {
-    if (!date) return "Unknown";
-    const diff = Math.floor(
-      (new Date().getTime() - new Date(date).getTime()) / 60000,
-    ); // in minutes
-    if (diff < 1) return "Just now";
-    if (diff < 60) return `${diff} minutes ago`;
-    if (diff < 24 * 60) return `${Math.floor(diff / 60)} hours ago`;
-    return `${Math.floor(diff / (24 * 60))} days ago`;
-  };
+
+    GroupDetails();
+  }, [props.Groupid]);
+
   return (
     <div className="flex justify-between w-[95%] border-b-2 border-red-50">
       <div className="flex items-center gap-2">
@@ -65,21 +49,21 @@ const Hedder = (props: Props) => {
           <MoveLeft />
         </Button>
         <Avatar>
-          <AvatarImage src={friendDetails?.image_url} />
+          <AvatarImage src={groupDetails?.grp_img_url} />
           <AvatarFallback>
             <User />
           </AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-lg font-bold ">{friendDetails?.fullName}</h2>
+          <h2 className="text-lg font-bold ">{groupDetails?.grp_name}</h2>
           <p className="text-sm text-gray-400">
-            {friendDetails?.isOnline ? (
+            {/* {friendDetails?.isOnline ? (
               <>
                 <span className="text-[#2de112]">Online</span>
               </>
             ) : (
               `Last seen ${formatLastSeen(friendDetails?.lastSeen)}`
-            )}
+            )} */}
           </p>
         </div>
       </div>
@@ -100,20 +84,20 @@ const Hedder = (props: Props) => {
           <DialogContent>
             <DialogTitle>Profile</DialogTitle>
             <Card>
-              {friendDetails && (
+              {groupDetails && (
                 <>
                   <CardHeader>
                     <CardTitle>Profile Details</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Image
-                      src={friendDetails.image_url}
+                      src={groupDetails.grp_img_url}
                       alt={""}
                       className="flex items-center justify-center rounded-full"
                       width={150}
                       height={150}
                     />
-                    <div className="flex flex-col justify-center w-full">
+                    {/* <div className="flex flex-col justify-center w-full">
                       <table>
                         <tbody>
                           <tr>
@@ -131,7 +115,7 @@ const Hedder = (props: Props) => {
                           </tr>
                         </tbody>
                       </table>
-                    </div>
+                    </div> */}
                   </CardContent>
                 </>
               )}

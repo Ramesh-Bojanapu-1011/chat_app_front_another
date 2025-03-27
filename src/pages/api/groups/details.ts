@@ -1,6 +1,6 @@
 import { connectDB } from "@/data/database/mangodb";
 import Groups from "@/data/models/Groups";
-import User from "@/data/models/User"; 
+import User from "@/data/models/User";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -13,20 +13,15 @@ export default async function handler(
 
   try {
     await connectDB();
-    const { userid } = req.query;
-    console.log(userid);
+    const { groupid } = req.query;
 
-    const user = (await User.find({ clerkId: userid })).map((id) => id._id);
+    if (!groupid) {
+      return res.status(400).json({ error: " Receiver ID are required" });
+    }
 
-    const allgroups = await Groups.find({
-      users_in_grp: user[0],
-    });
+    const userdetails = await Groups.findById(groupid).populate("users_in_grp");
 
-     
-
-    return res.status(200).json({
-      allgroups,
-    });
+    return res.status(200).json(userdetails);
   } catch (error: any) {
     return res
       .status(500)

@@ -7,7 +7,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Message } from "@/data/details/interfaces/intefaces";
+import {
+  GroupDetails,
+  GroupMessages,
+  Message,
+} from "@/data/details/interfaces/intefaces";
 import { getSocket } from "@/data/utils/socket";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Paperclip, SendHorizonalIcon } from "lucide-react";
@@ -16,10 +20,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { z } from "zod";
 import Messages from "./messages";
+import { default_group_message_detals } from "@/data/details/default_values/default_values";
 
 type Props = {
   userId: string;
-  friendId: string;
+  groupdetails: GroupDetails;
+  // friendId: string;
   conversationId: string;
 };
 
@@ -32,10 +38,11 @@ const ChatInputFormSchema = z
     message: "You must send either a message or a file.",
   });
 
-const Chatinput = (props: Props) => {
-  const [newMessage, setNewMessage] = React.useState<Message[]>([]);
+const Chatbox = (props: Props) => {
+  const [newMessage, setNewMessage] = React.useState<GroupMessages>(
+    default_group_message_detals,
+  );
 
-  const socket = getSocket();
   const [loading, setLoading] = React.useState(false);
   const form = useForm({
     resolver: zodResolver(ChatInputFormSchema),
@@ -49,51 +56,51 @@ const Chatinput = (props: Props) => {
     setLoading(true);
     const file = data.file;
     const formData = new FormData();
-    // console.log(file);
+
     if (file) {
       formData.append("file", file);
       const response = await fetch(
-        `/api/upload?senderId=${props.userId}&receiverId=${props.friendId},`,
+        `/api/uploadfile?senderId=${props.userId}&receiverId=${
+          props.conversationId
+        }&type=${"Group-chat"}`,
         {
           method: "POST",
           body: formData,
         },
       );
       const fileUrl = await response.json();
-      // console.log(fileUrl);
-
-      const res = await fetch("/api/messages/save", {
+      const res = await fetch("/api/groups/sendgroupmessages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           senderId: props.userId,
-          receiverId: props.friendId,
+          receiverId: props.groupdetails.users_in_grp,
           message: data.message,
-          fileUrl: data.file ? fileUrl.fileUrl : undefined,
+          groupId: props.conversationId,
+          fileUrl: fileUrl.fileUrl,
         }),
       });
       const NewMessageDetails = await res.json();
-      socket.emit("sendMessage", NewMessageDetails);
       setNewMessage(NewMessageDetails);
-      // props.setMessages(NewMessageDetails.data[0]);
     } else {
       if (data.message.trim()) {
-        const res = await fetch("/api/messages/save", {
+        const res = await fetch("/api/groups/sendgroupmessages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             senderId: props.userId,
-            receiverId: props.friendId,
+            receiverId: props.groupdetails.users_in_grp,
             message: data.message,
+            groupId: props.conversationId,
+            fileUrl: undefined,
           }),
         });
         const NewMessageDetails = await res.json();
-        socket.emit("sendMessage", NewMessageDetails);
-        setNewMessage(NewMessageDetails);
+        setNewMessage(NewMessageDetails.data);
       }
     }
 
@@ -185,4 +192,4 @@ const Chatinput = (props: Props) => {
   );
 };
 
-export default Chatinput;
+export default Chatbox;

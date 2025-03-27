@@ -20,7 +20,7 @@ import Messages from "./messages";
 type Props = {
   userId: string;
   friendId: string;
-  conversationId: string;
+  // conversationId: string;
 };
 
 const ChatInputFormSchema = z
@@ -32,7 +32,7 @@ const ChatInputFormSchema = z
     message: "You must send either a message or a file.",
   });
 
-const Chatinput = (props: Props) => {
+const Chatbox = (props: Props) => {
   const [newMessage, setNewMessage] = React.useState<Message[]>([]);
 
   const socket = getSocket();
@@ -107,7 +107,7 @@ const Chatinput = (props: Props) => {
     <>
       <Messages
         userId={props.userId}
-        conversationId={props.conversationId}
+        conversationId={props.friendId}
         newMessage={newMessage}
       />
       <Card className="flex w-full">
@@ -187,4 +187,4 @@ const Chatinput = (props: Props) => {
   );
 };
 
-export default Chatinput;
+export default Chatbox;

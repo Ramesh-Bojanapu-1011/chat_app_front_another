@@ -4,18 +4,14 @@ import { Card } from "@/components/ui/card";
 import { useUser } from "@clerk/nextjs";
 import useCoversation from "../../../../../hooks/useCoversation";
 import Hedder from "./_components/Hedder";
-import Chatinput from "./_components/chatinput";
-import Messages from "./_components/messages";
-import { useState } from "react";
-import { Message } from "@/data/details/interfaces/intefaces";
+// import Chatinput from "./_components/Chatbox";
 import React from "react";
+import Chatbox from "./_components/Chatbox";
+// import Chatbox from "./_components/chatbox";
 
 const ConversationPerId = () => {
   const { user } = useUser();
   const { conversationId } = useCoversation();
-
-  const [newMessage, setNewMessage] = React.useState<any>([]);
-
   return (
     <>
       <ConversationContainer>
@@ -23,19 +19,13 @@ const ConversationPerId = () => {
           <Card className="flex flex-col items-center justify-between h-full p-2">
             <Hedder receiverId={conversationId} />
 
-            <Chatinput
+            <Chatbox
               userId={user.publicMetadata.clerkId as string}
               friendId={
                 Array.isArray(conversationId)
                   ? conversationId[0]
                   : conversationId
               }
-              conversationId={
-                Array.isArray(conversationId)
-                  ? conversationId[0]
-                  : conversationId
-              }
-              // setMessages={setNewMessage}
             />
           </Card>
         )}

@@ -1,3 +1,37 @@
+export interface GroupMessages {
+  _id: string;
+  senderId: {
+    _id: string;
+    username: string;
+    email: string;
+    image_url: string;
+    clerkId: string;
+  };
+  groupId: string;
+  receiverId: [
+    {
+      _id: string;
+      username: string;
+      clerkId: string;
+      email: string;
+      image_url: string;
+    },
+  ];
+  message?: string;
+  fileUrl?: string;
+  isRead: boolean;
+  read_byuser: [
+    {
+      _id: string;
+      username: string;
+      clerkId: string;
+      email: string;
+      image_url: string;
+    },
+  ];
+  createdAt: string;
+}
+
 export interface Message {
   _id: string;
   senderId: {

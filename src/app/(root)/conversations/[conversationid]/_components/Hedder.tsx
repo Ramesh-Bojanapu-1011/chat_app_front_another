@@ -138,15 +138,6 @@ const Hedder = (props: Props) => {
             </Card>
           </DialogContent>
         </Dialog>
-
-        {/* <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size={"icon"} variant={"outline"}>
-              <Video />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Video Call</TooltipContent>
-        </Tooltip> */}
       </div>
     </div>
   );

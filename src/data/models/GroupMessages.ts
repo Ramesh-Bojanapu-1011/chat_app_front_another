@@ -15,6 +15,11 @@ const GroupMessagesSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+      required: true,
+    },
     message: { type: String },
     fileUrl: { type: String, default: null },
     isRead: { type: Boolean, default: false },
