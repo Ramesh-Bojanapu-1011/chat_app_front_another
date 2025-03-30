@@ -63,7 +63,6 @@ const Messages = (props: Props) => {
     fetchMessages();
   }, [props.conversationId]);
 
-
   const formatTime = (timestamp: any) => {
     return new Date(timestamp).toLocaleTimeString([], {
       hour: "2-digit",

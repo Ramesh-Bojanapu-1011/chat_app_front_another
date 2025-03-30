@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   },
   keywords: "chat app,chat application,chat,chat app,chat application,chat",
   authors: [{ name: "Ramesh" }],
+  verification: {
+    google: "fs3fI4RT8B2j8VUznZ2Lcuuzim3ucHDUWh0rHgeUe54",
+  },
 };
 
 export default function RootLayout({
