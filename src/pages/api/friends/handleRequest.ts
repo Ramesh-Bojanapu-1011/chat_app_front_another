@@ -26,6 +26,10 @@ export default async function handler(
       return res.status(404).json({ error: "User not found" });
 
     if (action === "accept") {
+      // if the friendid is already friend with the user
+      if (user.friends.includes(friendId))
+        return res.status(404).json({ error: "Already friends" });
+
       user.friends.push(friendId);
       friend.friends.push(userId);
     }

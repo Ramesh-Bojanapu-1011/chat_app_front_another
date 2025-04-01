@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
 import { Check, User, X } from "lucide-react";
+import React from "react";
 
 type Props = {
   id: string;
@@ -16,9 +17,11 @@ type Props = {
 const Request = (props: Props) => {
   const socket = getSocket();
   const { user } = useUser();
+  const [isLoading, setLoading] = React.useState(false);
   const userId = user?.publicMetadata.clerkId;
 
   const handleRequest = async (action: "accept" | "reject") => {
+    setLoading(true);
     const response = async () =>
       await fetch("/api/friends/handleRequest", {
         method: "POST",
@@ -27,12 +30,9 @@ const Request = (props: Props) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data);
-          if (action === "accept") {
-            socket.emit("acceptRequest", data);
-          }
+          socket.emit("acceptRequest", data);
+          setLoading(false);
         });
-
     response();
   };
 
@@ -53,6 +53,7 @@ const Request = (props: Props) => {
         </div>
         <div className="flex">
           <Button
+            disabled={isLoading}
             size={"icon"}
             variant={"default"}
             onClick={() => handleRequest("accept")}
@@ -60,6 +61,7 @@ const Request = (props: Props) => {
             <Check className="w-0 h-0" />
           </Button>
           <Button
+            disabled={isLoading}
             size={"icon"}
             variant={"destructive"}
             onClick={() => handleRequest("reject")}

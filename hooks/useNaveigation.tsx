@@ -1,3 +1,4 @@
+import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
 import { ContactRound, Group, MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -5,20 +6,29 @@ import { useEffect, useMemo, useState } from "react";
 
 const useNaveigation = () => {
   const pathname = usePathname();
+  const socket = getSocket();
 
   const { user } = useUser();
   const [requestcount, setRequestCount] = useState<Number>();
   useEffect(() => {
     if (user) {
-      fetch("/api/friends/friendrequestcount", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: user.id }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setRequestCount(data.requestcount);
-        });
+      const friendrequestcount = () =>
+        fetch("/api/friends/friendrequestcount", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: user.id }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setRequestCount(data.requestcount);
+          });
+      friendrequestcount();
+      socket.on("requestUpdate", () => {
+        friendrequestcount();
+      });
+      return () => {
+        socket.off("requestUpdate");
+      };
     }
   }, [user]);
 
