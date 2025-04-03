@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GroupMessages } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 import { cn } from "@/lib/utils";
 import { User2Icon } from "lucide-react";
 import Image from "next/image";
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const Messages = (props: Props) => {
+  const socket = getSocket();
   console.log(props.newMessage);
   const [messages, setMessages] = useState<GroupMessages[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -21,33 +23,35 @@ const Messages = (props: Props) => {
   }, [messages, props.newMessage]);
 
   useEffect(() => {
-    if (props.newMessage._id !== "") {
-      console.log("📤 Sending Message:", props.newMessage);
-      setMessages((prev) => [...prev, props.newMessage]);
-    }
+    socket.on("ReceiveGrpMessage", (message) => {
+      setMessages((prev) => [...prev, message.data]);
+    });
+    return () => {
+      socket.off("ReceiveGrpMessage");
+    };
   }, [props.newMessage]);
 
-  useEffect(() => {
-    // console.log(messages);
-    messages.forEach((msg) => {
-      // console.log(props.userId);
-      if (!msg.isRead && msg.senderId._id != props.userId) {
-        // console.log("📤 Sending Mark Read Event:", msg._id);
-        // socket.emit("markAsRead", {
-        //   messageId: msg._id,
-        // });
-      }
-    });
-  }, [messages]);
   // useEffect(() => {
-  // socket.on("receiveMessage", (message) => {
-  //   // console.log("Received Message:", message);
-  //   setMessages((prev) => [...prev, message]);
-  // });
+  //   // console.log(messages);
+  //   messages.forEach((msg) => {
+  //     // console.log(props.userId);
+  //     if (!msg.isRead && msg.senderId._id != props.userId) {
+  //       // console.log("📤 Sending Mark Read Event:", msg._id);
+  //       // socket.emit("markAsRead", {
+  //       //   messageId: msg._id,
+  //       // });
+  //     }
+  //   });
+  // }, [messages]);
+  // useEffect(() => {
+  //   socket.on("ReceiveGrpMessage", (message) => {
+  //     // console.log("Received Message:", message);
+  //     setMessages((prev) => [...prev, message.data]);
+  //   });
 
-  // return () => {
-  //   socket.off("receiveMessage");
-  // };
+  //   return () => {
+  //     socket.off("ReceiveGrpMessage");
+  //   };
   // }, [props.userId]);
   useEffect(() => {
     const fetchMessages = async () => {
@@ -118,10 +122,9 @@ const Messages = (props: Props) => {
                   <div className="flex gap-2 ">
                     <p
                       className={`flex justify-end w-full text-sm
-                        ${
-                          message.senderId._id != props.userId
-                            ? "text-muted-foreground"
-                            : " "
+                        ${message.senderId._id != props.userId
+                          ? "text-muted-foreground"
+                          : " "
                         } `}
                     >
                       {formatTime(message.createdAt)}

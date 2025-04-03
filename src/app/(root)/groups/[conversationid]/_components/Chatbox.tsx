@@ -19,6 +19,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { z } from "zod";
 import Messages from "./messages";
+import { getSocket } from "@/data/utils/socket";
 
 type Props = {
   userId: string;
@@ -37,6 +38,7 @@ const ChatInputFormSchema = z
   });
 
 const Chatbox = (props: Props) => {
+  const socket = getSocket();
   const [newMessage, setNewMessage] = React.useState<GroupMessages>(
     default_group_message_detals,
   );
@@ -81,6 +83,7 @@ const Chatbox = (props: Props) => {
         }),
       });
       const NewMessageDetails = await res.json();
+      socket.emit("SendGroupmessage", NewMessageDetails);
       setNewMessage(NewMessageDetails);
     } else {
       if (data.message.trim()) {
@@ -98,6 +101,7 @@ const Chatbox = (props: Props) => {
           }),
         });
         const NewMessageDetails = await res.json();
+        socket.emit("SendGroupmessage", NewMessageDetails);
         setNewMessage(NewMessageDetails.data);
       }
     }
