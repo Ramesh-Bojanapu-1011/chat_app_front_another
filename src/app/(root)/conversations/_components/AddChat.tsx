@@ -16,12 +16,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { UserDetails, UserFriends } from "@/data/details/interfaces/intefaces";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageSquareMore } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import FriendSearch from "./ui/SearchFriends";
 
 const FormSchema = z.object({

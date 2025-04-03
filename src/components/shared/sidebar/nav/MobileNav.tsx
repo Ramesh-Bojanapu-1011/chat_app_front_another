@@ -1,19 +1,18 @@
 "use client";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import React from "react";
-import useNaveigation from "../../../../../hooks/useNaveigation";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Link from "next/link";
-import { ModeToggle } from "@/components/mode-toggle";
-import useCoversation from "../../../../../hooks/useCoversation";
-import { UserButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import useCoversation from "../../../../../hooks/useCoversation";
+import useNaveigation from "../../../../../hooks/useNaveigation";
 
 const MobileNav = () => {
   const navItems = useNaveigation();

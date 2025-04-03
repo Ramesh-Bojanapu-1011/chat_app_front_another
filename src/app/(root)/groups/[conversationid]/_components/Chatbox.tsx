@@ -7,12 +7,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { default_group_message_detals } from "@/data/details/default_values/default_values";
 import {
   GroupDetails,
   GroupMessages,
-  Message,
 } from "@/data/details/interfaces/intefaces";
-import { getSocket } from "@/data/utils/socket";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Paperclip, SendHorizonalIcon } from "lucide-react";
 import React from "react";
@@ -20,7 +19,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { z } from "zod";
 import Messages from "./messages";
-import { default_group_message_detals } from "@/data/details/default_values/default_values";
 
 type Props = {
   userId: string;

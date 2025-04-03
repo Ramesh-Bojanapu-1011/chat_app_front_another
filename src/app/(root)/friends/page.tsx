@@ -8,13 +8,13 @@ import {
   ReceiverDetails,
   RequestsObject,
 } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
 import { User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AddFriendDiloge from "./_components/AddFriendDiloge";
 import Request from "./_components/Request";
-import { getSocket } from "@/data/utils/socket";
 
 const Friendspage = () => {
   const socket = getSocket();

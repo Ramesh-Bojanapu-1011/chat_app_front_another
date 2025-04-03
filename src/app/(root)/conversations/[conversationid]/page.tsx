@@ -5,7 +5,6 @@ import { useUser } from "@clerk/nextjs";
 import useCoversation from "../../../../../hooks/useCoversation";
 import Hedder from "./_components/Hedder";
 // import Chatinput from "./_components/Chatbox";
-import React from "react";
 import Chatbox from "./_components/Chatbox";
 // import Chatbox from "./_components/chatbox";
 

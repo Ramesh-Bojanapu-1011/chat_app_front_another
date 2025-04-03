@@ -6,8 +6,8 @@ import { GroupDetails } from "@/data/details/interfaces/intefaces";
 import { useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
 import useCoversation from "../../../../../hooks/useCoversation";
-import Hedder from "./_components/Hedder";
 import Chatbox from "./_components/Chatbox";
+import Hedder from "./_components/Hedder";
 // import Chatbox from "./_components/chatbox";
 // import Chatinput from "./_components/Chatbox";
 

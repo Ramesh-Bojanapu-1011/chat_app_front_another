@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GroupMessages, Message } from "@/data/details/interfaces/intefaces";
-import { getSocket } from "@/data/utils/socket";
+import { GroupMessages } from "@/data/details/interfaces/intefaces";
 import { cn } from "@/lib/utils";
 import { User2Icon } from "lucide-react";
 import Image from "next/image";

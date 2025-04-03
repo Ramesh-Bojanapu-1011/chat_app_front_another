@@ -1,6 +1,6 @@
 import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
-import { ContactRound, Group, MessageCircle } from "lucide-react";
+import { ContactRound, MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 

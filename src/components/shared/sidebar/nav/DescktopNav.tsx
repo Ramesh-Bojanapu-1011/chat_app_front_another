@@ -1,17 +1,16 @@
 "use client";
-import React from "react";
-import useNaveigation from "../../../../../hooks/useNaveigation";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ModeToggle } from "@/components/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import useNaveigation from "../../../../../hooks/useNaveigation";
 
 const DescktopNav = () => {
   const navItems = useNaveigation();

@@ -22,6 +22,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { UserDetails } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
@@ -30,8 +32,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import UserSearch from "./ui/UserSearch";
-import { UserDetails } from "@/data/details/interfaces/intefaces";
-import { getSocket } from "@/data/utils/socket";
 
 const AddFriendFormSchema = z.object({
   email: z

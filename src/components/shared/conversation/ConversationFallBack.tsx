@@ -1,11 +1,10 @@
 import { Card } from "@/components/ui/card";
-import React from "react";
 
 type Props = {};
 
 const ConversationFallBack = (props: Props) => {
   return (
-    <Card className="hidden lg:flex h-full w-full p-2 items-center justify-center ">
+    <Card className="items-center justify-center hidden w-full h-full p-2 lg:flex ">
       <h1 className="text-2xl font-semibold tracking-tight">
         Select a conversation
       </h1>

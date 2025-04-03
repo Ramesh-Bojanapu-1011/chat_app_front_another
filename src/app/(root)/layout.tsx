@@ -2,7 +2,7 @@
 import SidebarWraper from "@/components/shared/sidebar/SidebarWraper";
 import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect } from "react";
+import React from "react";
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -11,7 +11,7 @@ const layout = ({ children }: Props) => {
 
   const socket = getSocket();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isSignedIn && user) {
       fetch("/api/auth/user", {
         method: "POST",
@@ -28,7 +28,7 @@ const layout = ({ children }: Props) => {
     }
   }, [user, isSignedIn]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (user) {
       socket.on("connect", () => {
         console.log("Socket Connected:", socket.id);

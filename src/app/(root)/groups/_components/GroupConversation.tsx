@@ -1,15 +1,15 @@
 "use client";
 import ItemList from "@/components/shared/team-list/ItemList";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
 import { default_UserFriends_values } from "@/data/details/default_values/default_values";
 import { Groups, UserFriends } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 import { useUser } from "@clerk/nextjs";
+import { User } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import AddGroup from "./AddGroup";
-import { Card } from "@/components/ui/card";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User } from "lucide-react";
-import { getSocket } from "@/data/utils/socket";
 
 type Props = {};
 

@@ -1,6 +1,5 @@
-import React from "react";
-// import Coversations from "./_components/Coversations";
 import { Metadata } from "next";
+import React from "react";
 import GroupConversation from "./_components/GroupConversation";
 
 type Props = React.PropsWithChildren<{}>;
