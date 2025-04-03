@@ -9,11 +9,13 @@ import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
+import { getSocket } from "@/data/utils/socket";
 
 type Props = {};
 
 const GroupConversation = (props: Props) => {
   const { user } = useUser();
+  const socket = getSocket();
 
   const [userDetails, setUserDetails] = React.useState<UserFriends>(
     default_UserFriends_values,
@@ -26,6 +28,18 @@ const GroupConversation = (props: Props) => {
       .then((res) => res.json())
       .then(setUserDetails);
   }, [user]);
+
+  React.useEffect(() => {
+    socket.on("newGroup", (group) => {
+      console.log(group);
+      // console.log("Received Message:", message);
+      setGroups((prev) => [...prev, group.newGroup]);
+    });
+
+    return () => {
+      socket.off("newGroup");
+    };
+  }, [user?.id]);
 
   React.useEffect(() => {
     const fetchGroups = async () => {

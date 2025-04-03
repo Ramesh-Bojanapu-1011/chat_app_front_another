@@ -18,20 +18,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { UserFriends } from "@/data/details/interfaces/intefaces";
+import { getSocket } from "@/data/utils/socket";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageSquareMore, Paperclip } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import React from "react";
 
 const FormSchema = z.object({
   friends: z
@@ -55,6 +56,7 @@ type Props = {
 };
 
 const AddGroup = (props: Props) => {
+  const socket = getSocket();
   const friendOptions = props.user.friends.map((friend) => {
     return {
       id: friend._id,
@@ -103,8 +105,9 @@ const AddGroup = (props: Props) => {
         }),
       });
 
-      const NewMessageDetails = await res.json();
-      console.log(NewMessageDetails);
+      const NewGroupDetails = await res.json();
+      console.log(NewGroupDetails);
+      socket.emit("createGroup", NewGroupDetails);
     } else {
       const res = await fetch("/api/groups/create", {
         method: "POST",
@@ -117,7 +120,8 @@ const AddGroup = (props: Props) => {
           fileUrl: undefined,
         }),
       });
-      // const NewMessageDetails = await res.json();
+      const NewGroupDetails = await res.json();
+      socket.emit("createGroup", NewGroupDetails);
     }
     form.reset({
       friends: [],
