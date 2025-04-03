@@ -34,16 +34,31 @@ export const default_group_message_detals: GroupMessages = {
     image_url: "",
     clerkId: "",
     email: "",
+    fullName: "",
   },
   groupId: "",
   receiverId: [
-    { _id: "", username: "", clerkId: "", email: "", image_url: "" },
+    {
+      _id: "",
+      username: "",
+      clerkId: "",
+      email: "",
+      image_url: "",
+      fullName: "",
+    },
   ],
   message: "",
   fileUrl: undefined,
   isRead: false,
   read_byuser: [
-    { _id: "", username: "", clerkId: "", email: "", image_url: "" },
+    {
+      _id: "",
+      username: "",
+      clerkId: "",
+      email: "",
+      image_url: "",
+      fullName: "",
+    },
   ],
   createdAt: new Date().toISOString(),
 };

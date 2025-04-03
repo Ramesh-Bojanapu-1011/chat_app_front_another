@@ -6,7 +6,7 @@ export interface GroupMessages {
     email: string;
     image_url: string;
     clerkId: string;
-    fullName:string;
+    fullName: string;
   };
   groupId: string;
   receiverId: [
@@ -16,7 +16,7 @@ export interface GroupMessages {
       clerkId: string;
       email: string;
       image_url: string;
-      fullName:string;
+      fullName: string;
     },
   ];
   message?: string;
@@ -29,7 +29,7 @@ export interface GroupMessages {
       clerkId: string;
       email: string;
       image_url: string;
-      fullName:string;
+      fullName: string;
     },
   ];
   createdAt: string;
