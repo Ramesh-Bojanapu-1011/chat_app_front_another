@@ -14,7 +14,7 @@ type Props = {
 
 const Messages = (props: Props) => {
   const socket = getSocket();
-  console.log(props.newMessage);
+  // console.log(props.newMessage);
   const [messages, setMessages] = useState<GroupMessages[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -31,28 +31,34 @@ const Messages = (props: Props) => {
     };
   }, [props.newMessage]);
 
-  // useEffect(() => {
-  //   // console.log(messages);
-  //   messages.forEach((msg) => {
-  //     // console.log(props.userId);
-  //     if (!msg.isRead && msg.senderId._id != props.userId) {
-  //       // console.log("📤 Sending Mark Read Event:", msg._id);
-  //       // socket.emit("markAsRead", {
-  //       //   messageId: msg._id,
-  //       // });
-  //     }
-  //   });
-  // }, [messages]);
-  // useEffect(() => {
-  //   socket.on("ReceiveGrpMessage", (message) => {
-  //     // console.log("Received Message:", message);
-  //     setMessages((prev) => [...prev, message.data]);
-  //   });
+  useEffect(() => {
+    // console.log(messages);
+    messages.forEach((msg) => {
+      if (!msg.isRead && msg.receiverId.map((id) => id._id != props.userId)) {
+        console.log("📤 Sending Mark Read Event:", msg._id);
+        socket.emit("ReadGroupmessage", {
+          messageId: msg._id,
+          userId: props.userId,
+        });
+      }
+    });
+  }, [messages]);
+  useEffect(() => {
+    // Listen for read receipts
+    socket.on("GrpMsgRead", ({ messageId, isRead }) => {
+      // console.log('✅ Message Read Event Received:', messageId);
 
-  //   return () => {
-  //     socket.off("ReceiveGrpMessage");
-  //   };
-  // }, [props.userId]);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg._id === messageId ? { ...msg, isRead: isRead } : msg,
+        ),
+      );
+    });
+
+    return () => {
+      socket.off("GrpMsgRead");
+    };
+  }, [props.conversationId]);
   useEffect(() => {
     const fetchMessages = async () => {
       const res = await fetch(
@@ -72,8 +78,25 @@ const Messages = (props: Props) => {
       minute: "2-digit",
     });
   };
+
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault(); // Prevent the default right-click menu
+    setPosition({ x: event.pageX, y: event.pageY });
+    setMenuVisible(true);
+  };
+
+  const handleClickOutside = () => {
+    setMenuVisible(false);
+  };
+
   return (
-    <div className="flex w-full h-full overflow-y-auto lg:px-11">
+    <div
+      className="flex w-full h-full overflow-y-auto lg:px-11"
+      onClick={handleClickOutside}
+    >
       <div className="flex flex-col w-full gap-3">
         {messages.map((message, index) => {
           const lastbyuser =
@@ -94,6 +117,11 @@ const Messages = (props: Props) => {
                 })}
               >
                 <div
+                  onContextMenu={
+                    message.senderId._id == props.userId
+                      ? handleContextMenu
+                      : undefined
+                  }
                   className={cn("px-4 rounded-2xl py-3 max-w-[50%]  ", {
                     "bg-blue-500 text-white":
                       message.senderId._id == props.userId,
@@ -122,9 +150,10 @@ const Messages = (props: Props) => {
                   <div className="flex gap-2 ">
                     <p
                       className={`flex justify-end w-full text-sm
-                        ${message.senderId._id != props.userId
-                          ? "text-muted-foreground"
-                          : " "
+                        ${
+                          message.senderId._id != props.userId
+                            ? "text-muted-foreground"
+                            : " "
                         } `}
                     >
                       {formatTime(message.createdAt)}
@@ -151,6 +180,28 @@ const Messages = (props: Props) => {
                   </div>
                 </div>
               </div>
+
+              {menuVisible && (
+                <ul
+                  className="absolute gap-4 p-2 bg-white border rounded-xl shadow-g"
+                  style={{ top: position.y, left: position.x }}
+                >
+                  {message.read_byuser.map((user) => {
+                    return (
+                      <li key={user._id} className="flex">
+                        <Image
+                          src={user.image_url}
+                          alt={""}
+                          width={15}
+                          height={15}
+                        />
+                        <p>{user.fullName}</p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+
               <Avatar
                 className={cn(" relative w-8 h-8", {
                   "order-1": message.senderId._id == props.userId,
@@ -165,6 +216,7 @@ const Messages = (props: Props) => {
             </div>
           );
         })}
+
         <div ref={chatEndRef}></div>
       </div>
     </div>

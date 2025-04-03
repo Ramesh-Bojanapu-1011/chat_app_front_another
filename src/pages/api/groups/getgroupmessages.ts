@@ -23,8 +23,9 @@ export default async function handler(
     const messages = await GroupMessages.find({
       groupId: new mongoose.Types.ObjectId(GroupIdStr),
     })
-      .populate("senderId", "username email image_url") // Populate sender details
-      .populate("receiverId", "username email image_url") // Populate receiver details
+      .populate("senderId", "username email image_url fullName") // Populate sender details
+      .populate("receiverId", "username email image_url fullName") // Populate receiver details
+      .populate("read_byuser", "username email image_url fullName")
       .sort({ createdAt: 1 });
 
     return res.status(200).json({ messages });
