@@ -183,19 +183,26 @@ const Messages = (props: Props) => {
 
               {menuVisible && (
                 <ul
-                  className="absolute gap-4 p-2 bg-white border rounded-xl shadow-g"
+                  className="absolute p-2 bg-white border shadow-lg rounded-xl border-slate-200"
                   style={{ top: position.y, left: position.x }}
                 >
                   {message.read_byuser.map((user) => {
+                    if (user._id == props.userId) return null;
                     return (
-                      <li key={user._id} className="flex">
+                      <li
+                        key={user._id}
+                        className="flex py-1 gap-1 max-w-[200px]"
+                      >
                         <Image
                           src={user.image_url}
                           alt={""}
+                          className="rounded-full"
                           width={15}
                           height={15}
                         />
-                        <p>{user.fullName}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {user.fullName}
+                        </p>
                       </li>
                     );
                   })}

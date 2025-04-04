@@ -149,6 +149,6 @@ export interface Groups {
   _id: string;
   grp_name: string;
   grp_created: string;
-  users_in_grp: string[];
+  users_in_grp: UserDetails[];
   grp_img_url: string;
 }

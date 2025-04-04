@@ -82,40 +82,53 @@ const Hedder = (props: Props) => {
             <TooltipContent>Info</TooltipContent>
           </Tooltip>
           <DialogContent>
-            <DialogTitle>Profile</DialogTitle>
+            <DialogTitle></DialogTitle>
             <Card>
               {groupDetails && (
                 <>
                   <CardHeader>
-                    <CardTitle>Profile Details</CardTitle>
+                    <CardTitle>Group Details</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Image
                       src={groupDetails.grp_img_url}
                       alt={""}
-                      className="flex items-center justify-center rounded-full"
+                      className="m-2 rounded-2xl"
                       width={150}
                       height={150}
                     />
-                    {/* <div className="flex flex-col justify-center w-full">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td>Full name:</td>
-                            <td>{friendDetails.fullName}</td>
-                          </tr>
-                          <tr>
-                            <td>Username:</td>
-                            <td>{friendDetails.username}</td>
-                          </tr>
+                    <div className="flex w-full">
+                      <ul>
+                        <li className="flex items-center gap-2">
+                          <p className="font-semibold text-ls">Group Name</p>
+                          <p className="">{groupDetails.grp_name}</p>
+                        </li>
 
-                          <tr>
-                            <td>Email:</td>
-                            <td>{friendDetails.email}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div> */}
+                        <li>
+                          <p className="font-semibold text-ls">Members</p>
+                          {groupDetails.users_in_grp &&
+                            groupDetails.users_in_grp.map((user, index) => (
+                              <div key={index}>
+                                <div className="flex items-center gap-2 py-1">
+                                  <Avatar>
+                                    <AvatarImage src={user.image_url} />
+                                    <AvatarFallback>
+                                      <User />
+                                    </AvatarFallback>
+                                  </Avatar>
+                                  <p>{user.fullName}</p>
+
+                                  {groupDetails.grp_created == user._id && (
+                                    <p className="text-sm text-gray-400">
+                                      (Admin)
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                        </li>
+                      </ul>
+                    </div>
                   </CardContent>
                 </>
               )}
