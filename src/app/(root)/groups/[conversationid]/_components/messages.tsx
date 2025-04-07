@@ -34,7 +34,7 @@ const Messages = (props: Props) => {
   useEffect(() => {
     // console.log(messages);
     messages.forEach((msg) => {
-      if (!msg.isRead && msg.receiverId.map((id) => id._id != props.userId)) {
+      if (!msg.isRead && msg.senderId._id != props.userId) {
         console.log("📤 Sending Mark Read Event:", msg._id);
         socket.emit("ReadGroupmessage", {
           messageId: msg._id,
