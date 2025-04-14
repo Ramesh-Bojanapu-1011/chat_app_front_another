@@ -155,6 +155,22 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/* About Section  */}
+        <section className="max-w-3xl px-4 py-12 mx-auto text-center">
+          <h2 className="mb-4 text-3xl font-bold">About This App</h2>
+
+          <p className="">
+            Users can register, login, and chat with their friends securely. The
+            app supports direct messaging, read receipts, file sharing, and
+            real-time updates. Conversations are stored securely and sorted by
+            the latest message.
+          </p>
+          <div className="mt-6">
+            <p className="text-sm ">
+              Built with ❤️ by Ramesh. Open-source and customizable.
+            </p>
+          </div>
+        </section>
         {/* Footer */}
         <footer className="w-full pt-16 pb-6 text-white bg-gray-800">
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
