@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { UserFriends } from "@/data/details/interfaces/intefaces";
 import { Search } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -155,9 +156,11 @@ export default function FriendSearch({
               role="option"
               aria-selected={index === selectedIndex}
             >
-              <img
+              <Image
                 src={friend.image_url}
                 alt={friend.fullName}
+                width={32}
+                height={32}
                 className="w-8 h-8 mr-3 rounded-full"
               />
               <div className="flex flex-col justify-center">

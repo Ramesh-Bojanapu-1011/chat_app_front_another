@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import {
   Dialog,
   DialogClose,
@@ -151,7 +152,7 @@ const AddGroup = (props: Props) => {
               <FormField
                 control={form.control}
                 name="friends"
-                render={({ field }) => (
+                render={() => (
                   <>
                     <FormItem>
                       <FormLabel>Select Friends *</FormLabel>
@@ -181,10 +182,12 @@ const AddGroup = (props: Props) => {
                                         {...innerProps}
                                         className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
                                       >
-                                        <img
+                                        <Image
                                           src={data.image}
                                           alt={data.label}
                                           className="w-6 h-6 rounded-full"
+                                          width={24}
+                                          height={24}
                                         />
                                         <span>{data.label}</span>
                                       </div>
@@ -196,9 +199,11 @@ const AddGroup = (props: Props) => {
                                     return (
                                       <>
                                         <div className="flex items-center gap-2 py-1 pl-2 bg-gray-200 rounded-full">
-                                          <img
+                                          <Image
                                             src={data.image}
                                             alt={data.label}
+                                            width={20}
+                                            height={20}
                                             className="w-5 h-5 rounded-full"
                                           />
                                           <span className="text-sm ">
