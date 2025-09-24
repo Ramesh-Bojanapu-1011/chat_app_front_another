@@ -1,6 +1,11 @@
-import { GroupMessages } from "../interfaces/intefaces";
+import {
+  GroupDetails,
+  GroupMessages,
+  RequestsObject,
+  UserFriends,
+} from "../interfaces/intefaces";
 
-export const default_UserFriends_values = {
+export const default_UserFriends_values: UserFriends = {
   _id: "",
   username: "",
   fullName: "",
@@ -14,11 +19,11 @@ export const default_UserFriends_values = {
   __v: 0,
 };
 
-export const default_RequestsObject_values = {
+export const default_RequestsObject_values: RequestsObject = {
   requests: [],
 };
 
-export const default_Group_detals = {
+export const default_Group_detals: GroupDetails = {
   _id: "",
   grp_name: "",
   grp_created: "",
