@@ -42,7 +42,16 @@ const Messages = (props: Props) => {
         });
       }
     });
-  }, [messages]);
+  }, [
+    messages.filter(
+      (msg) =>
+        msg.groupId == props.conversationId &&
+        !msg.isRead &&
+        msg.senderId._id != props.userId,
+    ).length,
+    props.userId,
+    props.conversationId,
+  ]); // Only run when unread messages for this conversation change
   useEffect(() => {
     // Listen for read receipts
     socket.on("GrpMsgRead", ({ messageId, isRead }) => {
