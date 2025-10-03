@@ -8,8 +8,6 @@ import React, { useState } from "react";
 import useCoversation from "../../../../../hooks/useCoversation";
 import Chatbox from "./_components/Chatbox";
 import Hedder from "./_components/Hedder";
-// import Chatbox from "./_components/chatbox";
-// import Chatinput from "./_components/Chatbox";
 
 const ConversationPerId = () => {
   const { user } = useUser();
